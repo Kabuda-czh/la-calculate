@@ -1,0 +1,37 @@
+{
+  "name": "la-calculate",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^1.5.6",
+    "nprogress": "^0.2.0",
+    "pinia": "^2.1.7",
+    "vue": "^3.3.4",
+    "vue-router": "^4.3.2"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1",
+    "@types/node": "^20.14.2",
+    "@types/nprogress": "^0",
+    "@vicons/ionicons4": "^0.12.0",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "naive-ui": "^2.38.2",
+    "sass": "^1.77.4",
+    "typescript": "^5.0.2",
+    "unocss": "^0.60.4",
+    "unplugin-auto-import": "^0.17.6",
+    "unplugin-vue-components": "^0.27.0",
+    "vfonts": "^0.0.3",
+    "vite": "^5.0.0",
+    "vite-plugin-pages": "^0.32.2",
+    "vue-tsc": "^1.8.5"
+  },
+  "packageManager": "yarn@4.2.2"
+}

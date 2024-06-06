@@ -1,0 +1,12 @@
+node_modules/
+build/
+dist/
+lib
+.github
+accounts
+.vscode
+**/*.min.js
+**/*-min.js
+**/*.bundle.js
+**/*.js
+**/*.json
