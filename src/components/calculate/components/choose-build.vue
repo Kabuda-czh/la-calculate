@@ -13,6 +13,8 @@ const dynamicForm = reactive<{
 })
 
 const handleValidateClick = () => {
+  const sumBuildsLevel = dynamicForm.builds.reduce((prev, current) => prev + current.level * 5, 0)
+  window.$message?.success(`总刻印等级为: ${sumBuildsLevel}: 89`)
   formRef.value?.validate((errors) => {
     if (!errors) {
       console.log('验证通过')
@@ -43,7 +45,7 @@ const removeItem = (index: number) => {
 }
 
 const addItem = () => {
-  dynamicForm.builds.push({ code: "", level: 1 })
+  dynamicForm.builds.push({ code: "", level: 3 })
 }
 </script>
 
