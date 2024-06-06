@@ -38,10 +38,10 @@ const addItem = () => {
   <n-space vertical>
     <n-steps vertical :current="(current as number)" :status="currentStatus">
       <n-step title="选择想要搭配的刻印">
-        <ChooseBuild />
+        <ChooseBuild v-show="current === 1" />
       </n-step>
       <n-step title="选择能力石头">
-        <AbilityStone />
+        <AbilityStone v-show="current === 2" />
       </n-step>
       <n-step title="Break" />
       <n-step title="Come Together" description="Here come old flat top He come grooving up slowly" />
