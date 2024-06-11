@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import type { FormInst, StepsProps } from 'naive-ui'
-import { MdArrowRoundBack, MdArrowRoundForward } from '@vicons/ionicons4'
+import type { StepsProps } from 'naive-ui'
+import { invoke } from "@tauri-apps/api/tauri";
 
 const loading = ref<boolean>(false)
 const current = ref<number | null>(1)
 const currentStatus = ref<StepsProps['status']>('process')
 
-const formRef = ref<FormInst | null>(null)
+const calculatePageParam = reactive<Record<string, any>>({
+  need_builds: [] as Calculate.Build[],
+  stone_builds: {} as Calculate.StoneBuild,
+  self_builds: [] as Calculate.SelfBuild[],
+})
 
 const next = () => {
   if (current.value === null) current.value = 1
@@ -19,20 +23,25 @@ const prev = () => {
   else current.value--
 }
 
-const dynamicForm = reactive({
-  name: '',
-  hobbies: [{ hobby: '' }]
-})
-
-const removeItem = (index: number) => {
-  dynamicForm.hobbies.splice(index, 1)
+const buildSetting = (needBuilds: Calculate.Build[]) => {
+  calculatePageParam.need_builds = needBuilds
+  next()
 }
 
-const addItem = () => {
-  dynamicForm.hobbies.push({ hobby: '' })
+const stoneSetting = (stoneBuilds: Calculate.StoneBuild) => {
+  calculatePageParam.stone_builds = stoneBuilds
+  next()
 }
 
+const selfBuildSetting = (selfBuilds: Calculate.SelfBuild) => {
+  calculatePageParam.self_builds = selfBuilds
+  next()
+  calculate()
+}
 
+async function calculate() {
+  console.log(await invoke("calculate", { buildParam: calculatePageParam }))
+}
 </script>
 
 <template>
