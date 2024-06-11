@@ -17,6 +17,7 @@ const next = () => {
   else if (current.value >= 5) current.value = null
   else current.value++
 }
+
 const prev = () => {
   if (current.value === 0) current.value = null
   else if (current.value === null) current.value = 5
