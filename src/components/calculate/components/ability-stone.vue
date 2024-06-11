@@ -134,11 +134,6 @@ const goToPrev = () => {
         <n-select v-model:value="stoneFormValue.debuff.code" filterable placeholder="选择刻印" :options="debuffOptions" />
         <n-input-number class="pl-1" v-model:value="stoneFormValue.debuff.value" :max="10" :min="0" />
       </n-form-item>
-      <n-form-item>
-        <n-button attr-type="button" @click="handleValidateClick">
-          确认设定
-        </n-button>
-      </n-form-item>
     </n-form>
     <div>
       <n-button attr-type="button" @click="goToPrev">
