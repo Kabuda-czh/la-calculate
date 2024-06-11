@@ -4,7 +4,7 @@ import { buffOptions, debuffOptions } from "../config"
 
 const formRef = ref<FormInst | null>(null)
 
-const buffOptionRef = ref(buffOptions)
+const buffOptionRef = ref(JSON.parse(JSON.stringify(buffOptions)))
 
 const stoneFormValue = ref<{
   buff_1: {

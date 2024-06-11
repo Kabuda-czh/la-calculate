@@ -4,7 +4,7 @@ import { classesWithBuffOptions } from "../config"
 
 const formRef = ref<FormInst | null>(null)
 
-const classesWithBuffOptionsRef = ref(classesWithBuffOptions)
+const classesWithBuffOptionsRef = ref(JSON.parse(JSON.stringify(classesWithBuffOptions)))
 
 const dynamicForm = reactive<{
   builds: { code: number | string, level: number }[]
