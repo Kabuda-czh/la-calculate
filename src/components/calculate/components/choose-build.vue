@@ -2,6 +2,10 @@
 import type { FormInst } from 'naive-ui'
 import { classesWithBuffOptions } from "../config"
 
+const emit = defineEmits<{
+  buildSuccess: [needBuilds: Calculate.Build[]]
+}>()
+
 const formRef = ref<FormInst | null>(null)
 
 const classesWithBuffOptionsRef = ref(JSON.parse(JSON.stringify(classesWithBuffOptions)))
