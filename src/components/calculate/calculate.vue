@@ -4,7 +4,7 @@ import { invoke } from "@tauri-apps/api/tauri";
 
 const loading = ref<boolean>(false)
 const current = ref<number | null>(1)
-const currentStatus = ref<StepsProps['status']>('process')
+const currentStatus = ref<StepsProps['status']>('finish')
 
 const calculatePageParam = reactive<Record<string, any>>({
   need_builds: [] as Calculate.Build[],
