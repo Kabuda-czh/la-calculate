@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import type { FormInst, FormRules } from 'naive-ui'
-import { buffOptions, debuffOptions } from "../config"
+import { buffOptions, classesWithBuffOptions, debuffOptions } from "../config"
+
+const emit = defineEmits<{
+  stoneBuildSuccess: [selfBuild: Calculate.StoneBuild],
+  goToPrev: []
+}>()
 
 const formRef = ref<FormInst | null>(null)
 
@@ -79,9 +84,13 @@ const rules: FormRules = {
 const handleValidateClick = () => {
   formRef.value?.validate((errors) => {
     if (!errors) {
-      console.log('验证通过')
+      const buildDescription = Object.values(stoneFormValue.value).map(item => {
+        return `${classesWithBuffOptions.find(option => option.value === item.code)?.label}${item.value}`
+      }).join(' ')
+      window.$message?.success(`能力石设定成功: ${buildDescription}`)
+      emit('stoneBuildSuccess', stoneFormValue.value)
     } else {
-      console.log(errors)
+      window.$message?.warning('请完善刻印设定')
     }
   })
 }
@@ -100,6 +109,24 @@ const buffValueChange = () => {
       disabled: false
     }
   })
+}
+
+const goToPrev = () => {
+  stoneFormValue.value = {
+    buff_1: {
+      code: "",
+      value: 0
+    },
+    buff_2: {
+      code: "",
+      value: 0
+    },
+    debuff: {
+      code: "",
+      value: 0
+    }
+  }
+  emit('goToPrev')
 }
 </script>
 
@@ -126,8 +153,14 @@ const buffValueChange = () => {
         </n-button>
       </n-form-item>
     </n-form>
-
-    <pre>{{ JSON.stringify(stoneFormValue, null, 2) }}</pre>
+    <div>
+      <n-button attr-type="button" @click="goToPrev">
+        返回上一级
+      </n-button>
+      <n-button class="ml-1" attr-type="button" @click="handleValidateClick">
+        确认设定
+      </n-button>
+    </div>
   </div>
 </template>
 
