@@ -11,7 +11,7 @@ const formRef = ref<FormInst | null>(null)
 const classesWithBuffOptionsRef = ref(JSON.parse(JSON.stringify(classesWithBuffOptions)))
 
 const dynamicForm = reactive<{
-  builds: { code: number | string, level: number }[]
+  builds: Calculate.Build[]
 }>({
   builds: [{ code: 44, level: 3 }, { code: "", level: 3 }, { code: "", level: 3 }]
 })
