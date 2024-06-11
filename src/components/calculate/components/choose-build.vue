@@ -14,12 +14,21 @@ const dynamicForm = reactive<{
 
 const handleValidateClick = () => {
   const sumBuildsLevel = dynamicForm.builds.reduce((prev, current) => prev + current.level * 5, 0)
-  window.$message?.success(`总刻印等级为: ${sumBuildsLevel}: 89`)
+
+  if (sumBuildsLevel > 89) {
+    window.$message?.warning('刻印等级总和不能超过当前版本最大值 「89」 ！')
+    return
+  }
+
   formRef.value?.validate((errors) => {
     if (!errors) {
-      console.log('验证通过')
+      const buildDescription = dynamicForm.builds.map(item => {
+        return `${classesWithBuffOptions.find(option => option.value === item.code)?.label}${item.level}`
+      }).join(' ')
+      window.$message?.success(`刻印设定成功: ${buildDescription}`)
+      emit('buildSuccess', dynamicForm.builds)
     } else {
-      console.log(errors)
+      window.$message?.warning('请完善刻印设定')
     }
   })
 }
