@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { Calculate } from './components/calculate';
 import AppProvider from './components/common/app-provide.vue';
+
+onMounted(() => {
+  window.$dialog?.info({
+    title: "欢迎使用 La-Calculate",
+    content: "已经被T4背刺咯"
+  })
+})
 </script>
 
 <template>
