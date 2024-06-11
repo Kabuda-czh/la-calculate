@@ -11,20 +11,7 @@ const formRef = ref<FormInst | null>(null)
 
 const buffOptionRef = ref(JSON.parse(JSON.stringify(buffOptions)))
 
-const stoneFormValue = ref<{
-  buff_1: {
-    code: number | string,
-    value: number
-  },
-  buff_2: {
-    code: number | string,
-    value: number
-  },
-  debuff: {
-    code: number | string,
-    value: number
-  }
-}>({
+const stoneFormValue = ref<Calculate.StoneBuild>({
   buff_1: {
     code: "",
     value: 0
