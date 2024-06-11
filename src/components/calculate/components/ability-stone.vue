@@ -119,6 +119,9 @@ const goToPrev = () => {
 
 <template>
   <div>
+    <n-alert class="mb-5" title="提示" type="warning">
+      当前计算器版本仅支持先录入能力石刻印计算, 请先录入自身当前能力石刻印
+    </n-alert>
     <n-form ref="formRef" inline :label-width="80" :model="stoneFormValue" :rules="rules">
       <n-form-item label="能力石刻印1" path="buff_1.value">
         <n-select v-model:value="stoneFormValue.buff_1.code" filterable placeholder="选择刻印" :options="buffOptionRef"

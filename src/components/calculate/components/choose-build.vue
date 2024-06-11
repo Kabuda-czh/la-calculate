@@ -51,6 +51,9 @@ const addItem = () => {
 
 <template>
   <div>
+    <n-alert class="mb-5" title="提示" type="warning">
+      在下列选择你想要的刻印, 并设置对应等级, 注意不要选择当前版本无法达到的刻印以及数量
+    </n-alert>
     <n-form ref="formRef" :model="dynamicForm">
       <n-form-item v-for="(item, index) in dynamicForm.builds" :key="index" :label="`刻印${index + 1}`"
         :path="`builds[${index}].code`" :rule="{
