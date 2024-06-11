@@ -10,3 +10,37 @@ interface Window {
   /** Notification instance */
   $notification?: import('naive-ui').NotificationProviderInst;
 }
+
+namespace Calculate {
+  interface Build {
+    code: number | string
+    level: 1 | 2 | 3,
+    need_value?: number
+  }
+
+  interface StoneBuild {
+    buff_1: {
+      code: number | string,
+      value: number
+    },
+    buff_2: {
+      code: number | string,
+      value: number
+    },
+    debuff: {
+      code: number | string,
+      value: number
+    }
+  }
+
+  interface SelfBuild {
+    buff_1: {
+      code: number | string
+      value: 3 | 6 | 9 | 12
+    },
+    buff_2: {
+      code: number | string
+      value: 3 | 6 | 9 | 12
+    }
+  }
+}
