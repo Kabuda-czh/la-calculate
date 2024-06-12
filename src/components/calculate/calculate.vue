@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import type { StepsProps } from 'naive-ui'
-import { invoke } from "@tauri-apps/api/tauri";
+import ShowAccessory from './components/show-accessory.vue';
 
-const loading = ref<boolean>(false)
 const current = ref<number | null>(1)
 const currentStatus = ref<StepsProps['status']>('process')
+const showAccessoryRef = ref<InstanceType<typeof ShowAccessory> | null>(null)
 
 const calculatePageParam = reactive<Calculate.CalculatePageParam>({
   need_builds: [] as Calculate.Build[],
   stone_builds: {} as Calculate.StoneBuild,
   self_builds: {} as Calculate.SelfBuild,
 })
+
+const calculateResultParam = reactive<[Calculate.CalculatePriceParam[], Calculate.CalculateResult["result_array"]]>([
+  [], []
+])
 
 const next = () => {
   if (current.value === null) current.value = 1
@@ -43,14 +47,29 @@ const priceSettingSuccess = (calculatePriceParam: Calculate.CalculatePriceParam[
   calculateResultParam[1] = resultArray
   next()
 
-async function calculate() {
-  console.log(await invoke("calculate", { buildParam: calculatePageParam }))
+  showAccessoryRef.value?.calculate()
 }
 </script>
 
 <template>
   <n-space vertical>
+    <n-steps vertical :current="(current as number)" :status="currentStatus">
+      <n-step title="选择想要搭配的刻印">
+        <ChooseBuild v-show="current === 1" @build-success="buildSetting" />
+      </n-step>
+      <n-step title="选择能力石">
+        <AbilityStone v-show="current === 2" @stone-build-success="stoneSetting" @go-to-prev="prev" />
+      </n-step>
+      <n-step title="选择自身刻印">
+        <ChooseSelfBuild v-show="current === 3" @self-build-success="selfBuildSetting" @go-to-prev="prev" />
+      </n-step>
+      <n-step title="配置首饰金额">
         <SettingPrice v-show="current === 4" :calculate-page-param="calculatePageParam" @setting-success="priceSettingSuccess" @go-to-prev="prev" />
+      </n-step>
+      <n-step title="结算">
+        <ShowAccessory v-show="current === 5" ref="showAccessoryRef" :calculate-price-param="calculateResultParam" @go-to-prev="prev" />
+      </n-step>
+    </n-steps>
   </n-space>
 </template>
 
