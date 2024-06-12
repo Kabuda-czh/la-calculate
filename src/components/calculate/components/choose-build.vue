@@ -13,7 +13,7 @@ const classesWithBuffOptionsRef = ref(JSON.parse(JSON.stringify(classesWithBuffO
 const dynamicForm = reactive<{
   builds: Calculate.Build[]
 }>({
-  builds: [{ code: 44, level: 3 }, { code: "", level: 3 }, { code: "", level: 3 }, { code: "", level: 3 }, { code: "", level: 3 }]
+  builds: [{ code: 44, level: 3, value: 0 }, { code: "", level: 3, value: 0 }, { code: "", level: 3, value: 0 }, { code: "", level: 3, value: 0 }, { code: "", level: 3, value: 0 }]
 })
 
 const handleValidateClick = () => {
@@ -58,7 +58,7 @@ const removeItem = (index: number) => {
 }
 
 const addItem = () => {
-  dynamicForm.builds.push({ code: "", level: 1 })
+  dynamicForm.builds.push({ code: "", level: 1, value: 0 })
 }
 </script>
 
