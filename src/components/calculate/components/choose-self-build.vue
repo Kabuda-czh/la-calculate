@@ -3,7 +3,7 @@ import type { FormInst, FormRules } from 'naive-ui'
 import { classesWithBuffOptions } from "../config"
 
 const emit = defineEmits<{
-  selfBuildSuccess: [selfBuild: Calculate.SelfBuild],
+  selfBuildSuccess: [selfBuild: Calculate.SelfBuild]
   goToPrev: []
 }>()
 
