@@ -114,4 +114,10 @@ const classesWithBuffOptions = [
   { value: 44, label: "职业" },
 ]
 
-export { classesWithBuffOptionsMap, classesWithBuffOptions }
+const accessoryMap: Record<string, string> = {
+  "Earring": "耳环",
+  "Ring": "戒指",
+  "Amulet": "项链"
+}
+
+export { classesWithBuffOptionsMap, classesWithBuffOptions, accessoryMap }
