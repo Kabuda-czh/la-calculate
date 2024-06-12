@@ -97,8 +97,8 @@ async function calculate() {
       }).join("\t"),
       is_artifact: 0,
       is_artifact_disabled: buildString.indexOf("5") !== -1 ? true : false,
-      // price: 0,
-      price: Math.floor(Math.random() * 100000),
+      price: 0,
+      // price: Math.floor(Math.random() * 100000),
       base_string: buildString
     }
   })
