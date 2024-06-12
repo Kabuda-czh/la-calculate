@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import { NText } from 'naive-ui';
 import { Calculate } from './components/calculate';
 import AppProvider from './components/common/app-provide.vue';
 
 onMounted(() => {
   window.$dialog?.info({
     title: "欢迎使用 La-Calculate",
-    content: "已经被T4背刺咯"
+    content: () => h('div', [
+      h(NText, {delete: true}, { default: () => 'La-Calculate 是一个用于计算角色刻印搭配的工具，帮助你省钱搭配刻印。' }),
+      h("br"),
+      h(NText, {type: "warning"}, { default: () => '已经被T4背刺了' }),
+    ]),
   })
 })
 </script>
