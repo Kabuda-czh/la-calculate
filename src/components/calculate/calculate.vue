@@ -6,10 +6,10 @@ const loading = ref<boolean>(false)
 const current = ref<number | null>(1)
 const currentStatus = ref<StepsProps['status']>('process')
 
-const calculatePageParam = reactive<Record<string, any>>({
+const calculatePageParam = reactive<Calculate.CalculatePageParam>({
   need_builds: [] as Calculate.Build[],
   stone_builds: {} as Calculate.StoneBuild,
-  self_builds: [] as Calculate.SelfBuild[],
+  self_builds: {} as Calculate.SelfBuild,
 })
 
 const next = () => {

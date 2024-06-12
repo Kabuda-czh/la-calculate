@@ -43,4 +43,10 @@ namespace Calculate {
       value: 3 | 6 | 9 | 12
     }
   }
+
+  interface CalculatePageParam {
+    need_builds: Calculate.Build[]
+    stone_builds: Calculate.StoneBuild
+    self_builds: Calculate.SelfBuild
+  }
 }
