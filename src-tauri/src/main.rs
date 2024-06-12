@@ -3,24 +3,17 @@
 
 mod calculate;
 
-use calculate::{BuildParam, CalculateResult};
+use calculate::BuildParam;
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
-
-// remember to call `.manage(MyState::default())`
-#[tauri::command]
-fn calculate(build_param: BuildParam) -> CalculateResult {
+async fn build_calculate(build_param: BuildParam) -> (Vec<String>, Vec<String>) {
     println!("{:?}", build_param);
     calculate::calculate(build_param)
 }
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet, calculate])
+        .invoke_handler(tauri::generate_handler![build_calculate])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
