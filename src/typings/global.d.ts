@@ -50,4 +50,34 @@ namespace Calculate {
     stone_builds: Calculate.StoneBuild
     self_builds: Calculate.SelfBuild
   }
+
+  interface CalculateResult {
+    result_array: string[]
+    total_used_accessory_array: string[]
+  }
+
+  interface CalculatePriceParam {
+    accessory_name: string
+    accessory: string
+    build_string: string
+    build: Record<string, number>
+    is_artifact: 0
+    is_artifact_disabled: boolean
+    price: number
+    base_string: string
+  }
+
+  interface CalculatePriceResult {
+    used_items: CalculatePriceParam[]
+    price_total: number
+  }
+
+  interface CalculatePriceResultTableColumn {
+    amulet: CalculatePriceParam
+    earring_1: CalculatePriceParam
+    earring_2: CalculatePriceParam
+    ring_1: CalculatePriceParam
+    ring_2: CalculatePriceParam
+    price_total: number
+  }
 }
