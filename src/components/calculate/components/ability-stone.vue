@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { FormInst, FormRules } from 'naive-ui'
-import { buffOptions, classesWithBuffOptions, debuffOptions } from "../config"
+import {
+  buffOptions,
+  classesWithBuffOptions,
+  //  debuffOptions
+} from "../config"
 
 const emit = defineEmits<{
   stoneBuildSuccess: [selfBuild: Calculate.StoneBuild],
@@ -14,16 +18,16 @@ const buffOptionRef = ref(JSON.parse(JSON.stringify(buffOptions)))
 const stoneFormValue = ref<Calculate.StoneBuild>({
   buff_1: {
     code: "",
-    value: 0
+    value: 7
   },
   buff_2: {
     code: "",
-    value: 0
+    value: 7
   },
-  debuff: {
-    code: "",
-    value: 0
-  }
+  // debuff: {
+  //   code: "",
+  //   value: 0
+  // }
 })
 
 const rules: FormRules = {
@@ -53,19 +57,19 @@ const rules: FormRules = {
       trigger: ['input', 'blur']
     }
   },
-  debuff: {
-    code: {
-      required: true,
-      message: '请选择负面刻印',
-      trigger: ['change']
-    },
-    value: {
-      required: true,
-      message: '请输入刻印数',
-      type: 'number',
-      trigger: ['input', 'blur']
-    }
-  },
+  // debuff: {
+  //   code: {
+  //     required: true,
+  //     message: '请选择负面刻印',
+  //     trigger: ['change']
+  //   },
+  //   value: {
+  //     required: true,
+  //     message: '请输入刻印数',
+  //     type: 'number',
+  //     trigger: ['input', 'blur']
+  //   }
+  // },
 }
 
 const handleValidateClick = () => {
@@ -102,16 +106,16 @@ const goToPrev = () => {
   stoneFormValue.value = {
     buff_1: {
       code: "",
-      value: 0
+      value: 7
     },
     buff_2: {
       code: "",
-      value: 0
+      value: 7
     },
-    debuff: {
-      code: "",
-      value: 0
-    }
+    // debuff: {
+    //   code: "",
+    //   value: 0
+    // }
   }
   emit('goToPrev')
 }
@@ -133,10 +137,10 @@ const goToPrev = () => {
           @blur="buffValueChange" />
         <n-input-number class="pl-1" v-model:value="stoneFormValue.buff_2.value" :max="10" :min="0" />
       </n-form-item>
-      <n-form-item label="能力石负面刻印" path="debuff.value">
+      <!-- <n-form-item label="能力石负面刻印" path="debuff.value">
         <n-select v-model:value="stoneFormValue.debuff.code" filterable placeholder="选择刻印" :options="debuffOptions" />
         <n-input-number class="pl-1" v-model:value="stoneFormValue.debuff.value" :max="10" :min="0" />
-      </n-form-item>
+      </n-form-item> -->
     </n-form>
     <div>
       <n-button attr-type="button" @click="goToPrev">
