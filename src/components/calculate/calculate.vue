@@ -37,8 +37,11 @@ const stoneSetting = (stoneBuilds: Calculate.StoneBuild) => {
 const selfBuildSetting = (selfBuilds: Calculate.SelfBuild) => {
   calculatePageParam.self_builds = selfBuilds
   next()
-  calculate()
 }
+const priceSettingSuccess = (calculatePriceParam: Calculate.CalculatePriceParam[], resultArray: Calculate.CalculateResult["result_array"]) => {
+  calculateResultParam[0] = calculatePriceParam
+  calculateResultParam[1] = resultArray
+  next()
 
 async function calculate() {
   console.log(await invoke("calculate", { buildParam: calculatePageParam }))
@@ -47,25 +50,7 @@ async function calculate() {
 
 <template>
   <n-space vertical>
-    <n-spin :show="loading">
-      <n-steps vertical :current="(current as number)" :status="currentStatus">
-        <n-step title="选择想要搭配的刻印">
-          <ChooseBuild v-show="current === 1" @build-success="buildSetting" />
-        </n-step>
-        <n-step title="选择能力石">
-          <AbilityStone v-show="current === 2" @stone-build-success="stoneSetting" @go-to-prev="prev" />
-        </n-step>
-        <n-step title="选择自身刻印">
-          <ChooseSelfBuild v-show="current === 3" @self-build-success="selfBuildSetting" @go-to-prev="prev" />
-        </n-step>
-        <n-step title="配置首饰金额">
-          <div v-show="current === 4">4</div>
-        </n-step>
-        <n-step title="结算">
-          <div v-show="current === 5">5</div>
-        </n-step>
-      </n-steps>
-    </n-spin>
+        <SettingPrice v-show="current === 4" :calculate-page-param="calculatePageParam" @setting-success="priceSettingSuccess" @go-to-prev="prev" />
   </n-space>
 </template>
 
