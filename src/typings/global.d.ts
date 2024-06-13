@@ -46,9 +46,9 @@ namespace Calculate {
   }
 
   interface CalculatePageParam {
-    need_builds: Calculate.Build[]
-    stone_builds: Calculate.StoneBuild
-    self_builds: Calculate.SelfBuild
+    need_builds: Build[]
+    stone_builds: StoneBuild
+    self_builds: SelfBuild
   }
 
   interface CalculateResult {
