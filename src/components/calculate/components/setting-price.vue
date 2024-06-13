@@ -215,6 +215,9 @@ const goToPrev = () => {
     result_array: [],
     total_used_accessory_array: []
   }
+  artifact_check.value = false
+  firstCalculate.value = true
+  columns[1].filterOptions = []
   emit('goToPrev')
 }
 </script>
