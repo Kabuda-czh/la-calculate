@@ -12,9 +12,11 @@ const engravingPointDistributions = [
 
 const usedAccessoryNameArray = ['Amulet', 'Earring_1', 'Earring_2', 'Ring_1', 'Ring_2'];
 
-function calculate_build(buildParam: Calculate.CalculatePageParam): Promise<Calculate.CalculateResult> {
+function calculate_build(buildParam: Calculate.CalculatePageParam, artifactCheck: boolean = false): Promise<Calculate.CalculateResult> {
   return new Promise((resolve) => {
-    // const resultArray = new Map();
+    if (artifactCheck)
+      engravingPointDistributions.pop();
+
     const resultArray = new Set<string>();
     const totalUsedAccessorySet = new Set<string>();
     const buildItems = buildParam.need_builds.map(build => ({

@@ -109,7 +109,7 @@ const railStyle = ({
 async function calculate() {
   loading.value = true
   // calculateResult.value = await invoke("build_calculate", { buildParam: props.calculatePageParam })
-  calculateResult.value = await calculate_build(props.calculatePageParam)
+  calculateResult.value = await calculate_build(props.calculatePageParam, artifact_check.value)
   loading.value = false
   firstCalculate.value = false
 
