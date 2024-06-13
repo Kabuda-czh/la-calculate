@@ -143,11 +143,11 @@ async function calculate() {
   filtersUpdate(buildStringSet)
 }
 
-const filtersChange = (filterMap: any) => {
-  const { accessory_name, build_string } = filterMap as {
-    accessory_name: string
-    build_string: string[]
-  };
+const filtersChange = (filterMap: {
+  accessory_name: string
+  build_string: string[]
+}) => {
+  const { accessory_name, build_string } = filterMap
 
   const accessoryMessage = accessory_name
     ? `当前首饰过滤为: ${accessoryMap[accessory_name]}`
@@ -168,14 +168,20 @@ const filtersChange = (filterMap: any) => {
   });
 }
 
-const filtersUpdate = (buildStringSet: any) => {
-  if (buildStringSet instanceof Set)
-    columns[1].filterOptions = Array.from(buildStringSet as Set<string>).map((buildString) => {
-      return {
-        label: buildString,
-        value: buildString
-      }
-    })
+const filtersFunction = (filtersValue: any) => {
+  if (filtersValue instanceof Set)
+    filtersUpdate(filtersValue)
+  else
+    filtersChange(filtersValue)
+}
+
+const filtersUpdate = (buildStringSet: Set<string>) => {
+  columns[1].filterOptions = Array.from(buildStringSet).map((buildString) => {
+    return {
+      label: buildString,
+      value: buildString
+    }
+  })
 }
 
 const settingClick = async () => {
@@ -293,8 +299,7 @@ defineExpose({
     </div>
 
     <n-spin :show="loading">
-      <n-data-table :columns="columns" :data="data" :pagination="{ pageSize: 10 }" @filters-change="filtersChange"
-        @update:filters="filtersUpdate" />
+      <n-data-table :columns="columns" :data="data" :pagination="{ pageSize: 10 }" @update:filters="filtersFunction" />
       <template #description>
         正在计算中......
       </template>
