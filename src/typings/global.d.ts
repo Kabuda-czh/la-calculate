@@ -64,6 +64,7 @@ namespace Calculate {
     is_artifact: 0 | 1
     is_artifact_disabled: boolean
     price: number
+    is_buy: boolean
     base_string: string
     remark: string
   }

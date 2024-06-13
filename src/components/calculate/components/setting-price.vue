@@ -88,6 +88,23 @@ const columns: DataTableColumns<Calculate.CalculatePriceParam> = [
     }
   },
   {
+    title: "是否已经购买",
+    key: "isBuy",
+    render: (row) => {
+      return <>
+        <NSwitch
+          size="small"
+          value={row.is_buy}
+          disabled={rowDisabledInputComputed(row.accessory).value}
+          onUpdateValue={(v) => {
+            row.is_buy = v
+            filterIsBuyArray()
+          }}
+        />
+      </>
+    }
+  },
+  {
     title: "价格(注意: 价格为0时不会计算在内)",
     key: "price",
     titleAlign: "center",
@@ -120,6 +137,21 @@ const columns: DataTableColumns<Calculate.CalculatePriceParam> = [
     }
   }
 ]
+
+const filterIsBuyArray = () => {
+  let amuletCount = 0, earringCount = 0, ringCount = 0
+  data.value.map((row) => {
+    if (row.is_buy) {
+      if (row.accessory === "Amulet")
+        amuletCount++
+      else if (row.accessory === "Earring")
+        earringCount++
+      else if (row.accessory === "Ring")
+        ringCount++
+    }
+    return row
+  })
+}
 
 const railStyle = ({
   focused,
@@ -167,6 +199,7 @@ async function calculate() {
       }).join("\t"),
       is_artifact: artifact_check.value ? 1 : 0,
       is_artifact_disabled: artifact_check.value ? false : buildString.indexOf("6") !== -1 ? false : true,
+      is_buy: false,
       price: 0,
       base_string: buildString,
       remark: ""
