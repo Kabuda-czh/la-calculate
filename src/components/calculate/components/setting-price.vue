@@ -32,6 +32,16 @@ const columns: DataTableColumns<Calculate.CalculatePriceParam> = [
   {
     title: "首饰位置",
     key: "accessory_name",
+    filterMultiple: false,
+    filterOptions: Object.keys(accessoryMap).map((key) => {
+      return {
+        label: accessoryMap[key],
+        value: key
+      }
+    }),
+    filter: (value, row) => {
+      return !!~row.accessory.indexOf(value.toString())
+    }
   },
   {
     title: "刻印",
