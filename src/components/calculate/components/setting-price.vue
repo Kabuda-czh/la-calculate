@@ -126,7 +126,7 @@ async function calculate() {
         return build_name+ " " + build.split("-")[1]
       }).join("\t"),
       is_artifact: 0,
-      is_artifact_disabled: buildString.indexOf("5") !== -1 ? true : false,
+      is_artifact_disabled: buildString.indexOf("6") !== -1 ? false : true,
       price: 0,
       base_string: buildString
     }
