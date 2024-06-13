@@ -31,7 +31,7 @@ const createAccessoryColumnRender = (item: Calculate.CalculatePriceParam) => {
         type: item.is_artifact ? "error" : "warning",
         bordered: false,
       },
-      item.is_artifact ? '遗物' : '古代'
+      () => item.is_artifact ? '遗物' : '古代'
     ),
     h('br'),
     h(NNumberAnimation, {
