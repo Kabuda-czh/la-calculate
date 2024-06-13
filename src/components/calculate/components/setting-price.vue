@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { NInput, NInputNumber, NSelect, NTag, NText, type DataTableColumns } from "naive-ui";
+<script setup lang="tsx">
+import { NInput, NInputNumber, NSelect, NSwitch, NTag, NText, type DataTableColumns } from "naive-ui";
 import { accessoryMap, classesWithBuffOptionsMap } from "../config"
 import { calculate_build } from "../utils";
 import { CSSProperties } from "vue";
@@ -71,18 +71,20 @@ const columns: DataTableColumns<Calculate.CalculatePriceParam> = [
     title: "是否为遗物级别",
     key: "isArtifact",
     render: (row) => {
-      return h(NSelect, {
-        size: "small",
-        value: row.is_artifact ? "是" : "否",
-        disabled: !row.is_artifact_disabled,
-        options: [
-          { label: "是", value: 1 },
-          { label: "否", value: 0 }
-        ],
-        onUpdateValue(v) {
-          row.is_artifact = v
-        }
-      })
+      return <>
+        <NSelect
+          size="small"
+          value={row.is_artifact ? "是" : "否"}
+          disabled={!row.is_artifact_disabled || rowDisabledInputComputed(row.accessory).value}
+          options={[
+            { label: "是", value: 1 },
+            { label: "否", value: 0 }
+          ]}
+          onUpdateValue={(v) => {
+            row.is_artifact = v
+          }}
+        />
+      </>
     }
   },
   {
@@ -90,26 +92,31 @@ const columns: DataTableColumns<Calculate.CalculatePriceParam> = [
     key: "price",
     titleAlign: "center",
     render: (row) => {
-      return h(NInputNumber, {
-        showButton: false,
-        value: row.price,
-        onUpdateValue(v) {
-          row.price = v || 0
-        }
-      })
+      return <>
+        <NInputNumber
+          showButton={false}
+          value={row.price}
+          disabled={rowDisabledInputComputed(row.accessory).value}
+          onUpdateValue={(v) => {
+            row.price = v || 0
+          }}
+        />
+      </>
     }
   },
   {
     title: "备注",
     key: "remark",
     render: (row) => {
-      return h(NInput, {
-        showButton: false,
-        value: row.remark,
-        onUpdateValue(v) {
-          row.remark = v
-        }
-      })
+      return <>
+        <NInput
+          value={row.remark}
+          disabled={rowDisabledInputComputed(row.accessory).value}
+          onUpdateValue={(v) => {
+            row.remark = v
+          }}
+        />
+      </>
     }
   }
 ]
@@ -185,10 +192,12 @@ const filtersChange = (filterMap: {
 
   window.$notification?.success({
     title: '过滤条件',
-    content: () => h('div', [
-      h('p', accessoryMessage),
-      h('p', buildStringMessage)
-    ]),
+    content: () =>
+      <div>
+        <p>{accessoryMessage}</p>
+        <p>{buildStringMessage}</p>
+      </div>
+    ,
     duration: 2000,
     closable: false
   });

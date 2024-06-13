@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="tsx">
 import { NNumberAnimation, NTag, type DataTableColumns } from "naive-ui";
 import { calculate_price } from "../utils";
 // import { invoke } from "@tauri-apps/api/tauri";
@@ -22,24 +22,17 @@ const data = ref<Calculate.CalculatePriceResultTableColumn[]>([])
 const calculatePriceResult = ref<Calculate.CalculatePriceResult[]>([])
 
 const createAccessoryColumnRender = (item: Calculate.CalculatePriceParam) => {
-  return h('div', [
-    h('span', item.build_string),
-    h('br'),
-    h(
-      NTag,
-      {
-        type: item.is_artifact ? "error" : "warning",
-        bordered: false,
-      },
-      () => item.is_artifact ? '遗物' : '古代'
-    ),
-    h('br'),
-    h(NNumberAnimation, {
-      showSeparator: true,
-      from: 0,
-      to: item.price
-    })
-  ])
+  return <div>
+    <span>{item.build_string}</span>
+    <br />
+    <NTag type={item.is_artifact ? "error" : "warning"} bordered={false}>
+      {item.is_artifact ? '遗物' : '古代'}
+    </NTag>
+    <br />
+    <NNumberAnimation showSeparator from={0} to={item.price} />
+    <br />
+    <span>备注: {item.remark || ""}</span>
+  </div>
 }
 
 const columns: DataTableColumns<Calculate.CalculatePriceResultTableColumn> = [
@@ -72,11 +65,7 @@ const columns: DataTableColumns<Calculate.CalculatePriceResultTableColumn> = [
     title: "总价格",
     key: "price_total",
     render: (row) => {
-      return h(NNumberAnimation, {
-        showSeparator: true,
-        from: 0,
-        to: row.price_total,
-      })
+      return <NNumberAnimation showSeparator from={0} to={row.price_total} />
     }
   }
 ]
