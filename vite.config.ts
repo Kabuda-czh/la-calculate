@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import UnoCSS from 'unocss/vite'
 import vue from "@vitejs/plugin-vue";
+import vueJsx from "@vitejs/plugin-vue-jsx";
 
 import Components from 'unplugin-vue-components/vite';
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
@@ -12,6 +13,7 @@ import Pages from "vite-plugin-pages";
 export default defineConfig(async () => ({
   plugins: [
     vue(),
+    vueJsx(),
     UnoCSS(),
 
     Components({
