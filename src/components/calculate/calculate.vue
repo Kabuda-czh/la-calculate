@@ -146,6 +146,7 @@ const exportJsonData = () => {
         <div>导入 Json 数据</div>
       </template>
       <div>
+        <p>注意!! 超大数据需要等待数分钟</p>
         <n-input v-model:value="jsonTextarea" type="textarea" size="small" :autosize="{
           minRows: 3,
           maxRows: 5
@@ -163,6 +164,7 @@ const exportJsonData = () => {
         <div>Json 数据</div>
       </template>
       <div>
+        <p>注意!! 导出的数据量如果过大, 需要文本保存, 且可能会导致卡死</p>
         <n-infinite-scroll style="height: 240px" :distance="10">
           <n-code :code="JSON.stringify({ calculatePageParam, data: settingPriceRef?.data })" language="json" word-wrap />
         </n-infinite-scroll>
