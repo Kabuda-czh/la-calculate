@@ -50,13 +50,6 @@ function calculate_build(buildParam: Calculate.CalculatePageParam, artifactCheck
     function tryCombination(index: number, buildItems: BuildItem[], elementUsedMap: Record<string, { code: string | number; value: number }[]>) {
       if (index === 5) {
         if (isValid(buildItems)) {
-          // const mapKeySortBuildItems = buildItems.sort((a, b) => a.code - b.code);
-
-          // const mapKey = mapKeySortBuildItems.reduce((acc, item) => {
-          //   acc.push(`${item.code}-${item.value}`);
-          //   return acc;
-          // }, []).join(',');
-
           const filteredElementUsedArray = Object.keys(elementUsedMap).reduce((acc, key) => {
             if (usedAccessoryNameArray.includes(key)) {
               const filterKey = key.startsWith('Earring') ? 'Earring' : key.startsWith('Ring') ? 'Ring' : key;
@@ -65,12 +58,6 @@ function calculate_build(buildParam: Calculate.CalculatePageParam, artifactCheck
             }
             return acc;
           }, [] as string[]);
-
-          // if (!resultArray.has(mapKey)) {
-          //   resultArray.set(mapKey, new Set());
-          // }
-
-          // const resultArraySet = resultArray.get(mapKey);
 
           const sortPartFilteredElementUsedString = filteredElementUsedArray.map(part => {
             let [type, value] = part.split(":");
