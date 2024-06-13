@@ -125,8 +125,8 @@ async function calculate() {
         const build_name = classesWithBuffOptionsMap[build.split("-")[0]]
         return build_name+ " " + build.split("-")[1]
       }).join("\t"),
-      is_artifact: 0,
-      is_artifact_disabled: buildString.indexOf("6") !== -1 ? false : true,
+      is_artifact: artifact_check.value ? 1 : 0,
+      is_artifact_disabled: artifact_check.value ? false : buildString.indexOf("6") !== -1 ? false : true,
       price: 0,
       base_string: buildString
     }

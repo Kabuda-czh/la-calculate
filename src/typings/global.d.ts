@@ -61,7 +61,7 @@ namespace Calculate {
     accessory: string
     build_string: string
     build: Record<string, number>
-    is_artifact: 0
+    is_artifact: 0 | 1
     is_artifact_disabled: boolean
     price: number
     base_string: string
