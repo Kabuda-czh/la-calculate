@@ -54,13 +54,6 @@ const columns: DataTableColumns<Calculate.CalculatePriceParam> = [
     title: "是否为遗物级别",
     key: "isArtifact",
     render: (row) => {
-      // return h(NTag, {
-      //   bordered: false,
-      //   type: row.isArtifact ? "success" : "error",
-      //   size: "small"
-      // }, {
-      //   default: () => row.isArtifact ? "是" : "否"
-      // })
       return h(NSelect, {
         size: "small",
         value: row.is_artifact ? "是" : "否",
@@ -129,12 +122,12 @@ async function calculate() {
         return acc
       }, {} as Record<string, number>),
       build_string: buildString.split(":")[1].split(",").map((build) => {
-        return classesWithBuffOptionsMap[build.split("-")[0]] + " " + build.split("-")[1]
+        const build_name = classesWithBuffOptionsMap[build.split("-")[0]]
+        return build_name+ " " + build.split("-")[1]
       }).join("\t"),
       is_artifact: 0,
       is_artifact_disabled: buildString.indexOf("5") !== -1 ? true : false,
       price: 0,
-      // price: Math.floor(Math.random() * 100000),
       base_string: buildString
     }
   })
