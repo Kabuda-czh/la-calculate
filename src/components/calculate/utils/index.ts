@@ -168,8 +168,9 @@ function calculate_price(param: [Calculate.CalculatePriceParam[], string[]]): Pr
             is_artifact: build.is_artifact,
             is_artifact_disabled: build.is_artifact_disabled,
             price: build.price,
-            base_string: build.base_string
-          };
+            base_string: build.base_string,
+            remark: build.remark
+          } as Calculate.CalculatePriceParam;
         });
 
         const price_total = used_items.reduce((acc, item) => acc + item.price, 0);
