@@ -129,7 +129,7 @@ function calculate_price(param: [Calculate.CalculatePriceParam[], string[]]): Pr
   return new Promise((resolve) => {
     const [price_array, items_array] = param;
 
-    const price_array_filtered = price_array.filter(e => e.price !== 0);
+    const price_array_filtered = price_array.filter(e => e?.price && e.price !== 0);
 
     const items_price_array = items_array.reduce((acc, cur) => {
       const items = cur.split("|");
