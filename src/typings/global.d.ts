@@ -80,4 +80,10 @@ namespace Calculate {
     ring_2: CalculatePriceParam
     price_total: number
   }
+
+  interface CalculateJson {
+    calculatePageParam: CalculatePageParam
+    artifactCheck: boolean
+    data: CalculatePriceParam[]
+  }
 }

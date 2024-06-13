@@ -120,6 +120,15 @@ const goToPrev = () => {
   buffValueChange()
   emit('goToPrev')
 }
+
+const setStoneFormValue = (stone_builds: Calculate.StoneBuild) => {
+  stoneFormValue.value = stone_builds
+  buffValueChange()
+}
+
+defineExpose({
+  setStoneFormValue
+})
 </script>
 
 <template>

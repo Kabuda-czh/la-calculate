@@ -60,6 +60,15 @@ const removeItem = (index: number) => {
 const addItem = () => {
   dynamicForm.builds.push({ code: "", level: 1, value: 0 })
 }
+
+const setDynamicFormBuildsValue = (need_builds: Calculate.Build[]) => {
+  dynamicForm.builds = need_builds
+  buffValueChange()
+}
+
+defineExpose({
+  setDynamicFormBuildsValue
+})
 </script>
 
 <template>

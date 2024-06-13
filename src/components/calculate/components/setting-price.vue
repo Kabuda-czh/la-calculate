@@ -223,6 +223,12 @@ const goToPrev = () => {
   columns[1].filterOptions = []
   emit('goToPrev')
 }
+
+defineExpose({
+  data,
+  artifact_check,
+  firstCalculate,
+})
 </script>
 
 <template>

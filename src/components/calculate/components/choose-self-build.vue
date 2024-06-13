@@ -102,6 +102,15 @@ const goToPrev = () => {
   buffValueChange()
   emit('goToPrev')
 }
+
+const setSelfBuildFormValue = (self_builds: Calculate.SelfBuild) => {
+  selfBuildFormValue.value = self_builds
+  buffValueChange()
+}
+
+defineExpose({
+  setSelfBuildFormValue
+})
 </script>
 
 <template>
