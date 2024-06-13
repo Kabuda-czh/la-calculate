@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NInputNumber, NSelect, NTag, type DataTableColumns } from "naive-ui";
+import { NInputNumber, NSelect, NTag, NText, type DataTableColumns } from "naive-ui";
 import { accessoryMap, classesWithBuffOptionsMap } from "../config"
 import { calculate_build } from "../utils";
 import { CSSProperties } from "vue";
@@ -141,8 +141,33 @@ async function calculate() {
 }
 
 const settingClick = async () => {
-  // console.log(data.value, calculateResult.value.result_array)
-  // console.log(await calculate_price([data.value, calculateResult.value.result_array]))
+  const accessoryCount = data.value.reduce((acc, row) => {
+    if (row.accessory === "Amulet") {
+      acc.amulet = acc.amulet + 1
+    } else if (row.accessory === "Earring") {
+      acc.earring = acc.earring + 1
+    } else if (row.accessory === "Ring") {
+      acc.ring = acc.ring + 1
+    }
+    return acc
+  }, { amulet: 0, earring: 0, ring: 0 })
+
+  if (accessoryCount.amulet < 1 || accessoryCount.earring < 2 || accessoryCount.ring < 2) {
+    window.$dialog?.warning({
+      title: "提示",
+      content: () => h("div", [
+        h("p", "请至少设置 1 个项链, 2 个耳环, 2 个戒指"),
+        h("div", { class: 'flex gap-2' }, [
+          h(NText, null, { default: () => "当前设置: " }),
+          h(NText, { type: accessoryCount.amulet < 1 ? 'error' : 'success', }, { default: () => `项链: ${accessoryCount.amulet}个` }),
+          h(NText, { type: accessoryCount.earring < 2 ? 'error' : 'success' }, { default: () => `耳环: ${accessoryCount.earring}个` }),
+          h(NText, { type: accessoryCount.ring < 2 ? 'error' : 'success' }, { default: () => `戒指: ${accessoryCount.ring}个` }),
+        ]),
+      ])
+    })
+    return
+  }
+
   emit("settingSuccess", data.value, calculateResult.value.result_array)
 }
 
