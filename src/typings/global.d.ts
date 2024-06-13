@@ -65,6 +65,7 @@ namespace Calculate {
     is_artifact_disabled: boolean
     price: number
     base_string: string
+    remark: string
   }
 
   interface CalculatePriceResult {

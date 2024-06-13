@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NInputNumber, NSelect, NTag, NText, type DataTableColumns } from "naive-ui";
+import { NInput, NInputNumber, NSelect, NTag, NText, type DataTableColumns } from "naive-ui";
 import { accessoryMap, classesWithBuffOptionsMap } from "../config"
 import { calculate_build } from "../utils";
 import { CSSProperties } from "vue";
@@ -86,6 +86,19 @@ const columns: DataTableColumns<Calculate.CalculatePriceParam> = [
         }
       })
     }
+  },
+  {
+    title: "备注",
+    key: "remark",
+    render: (row) => {
+      return h(NInput, {
+        showButton: false,
+        value: row.remark,
+        onUpdateValue(v) {
+          row.remark = v
+        }
+      })
+    }
   }
 ]
 
@@ -136,7 +149,8 @@ async function calculate() {
       is_artifact: artifact_check.value ? 1 : 0,
       is_artifact_disabled: artifact_check.value ? false : buildString.indexOf("6") !== -1 ? false : true,
       price: 0,
-      base_string: buildString
+      base_string: buildString,
+      remark: ""
     }
   })
 
