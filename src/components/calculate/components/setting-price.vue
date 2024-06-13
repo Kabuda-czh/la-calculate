@@ -2,6 +2,7 @@
 import { NInputNumber, NSelect, NTag, type DataTableColumns } from "naive-ui";
 import { accessoryMap, classesWithBuffOptionsMap } from "../config"
 import { calculate_build } from "../utils";
+import { CSSProperties } from "vue";
 // import { invoke } from "@tauri-apps/api/tauri";
 
 const props = withDefaults(defineProps<{
@@ -87,6 +88,28 @@ const columns: DataTableColumns<Calculate.CalculatePriceParam> = [
     }
   }
 ]
+
+const railStyle = ({
+  focused,
+  checked
+}: {
+  focused: boolean
+  checked: boolean
+}) => {
+  const style: CSSProperties = {}
+  if (checked) {
+    style.background = '#FA5D00'
+    if (focused) {
+      style.boxShadow = '0 0 0 2px #FA5D0040'
+    }
+  } else {
+    style.background = '#E3C7A1'
+    if (focused) {
+      style.boxShadow = '0 0 0 2px #E3C7A140'
+    }
+  }
+  return style
+}
 
 async function calculate() {
   loading.value = true
@@ -179,7 +202,17 @@ const goToPrev = () => {
       </n-list-item>
     </n-list>
 
-    <n-button class="mb-5" @click="calculate"> 开始计算 </n-button>
+    <div class="mb-5 w-full flex justify-between items-center">
+      <n-switch v-model:value="artifact_check" :round="false" :rail-style="railStyle">
+        <template #checked>
+          当前仅处理遗物首饰
+        </template>
+        <template #unchecked>
+          当前处理古代和遗物首饰
+        </template>
+      </n-switch>
+      <n-button @click="calculate"> 开始计算 </n-button>
+    </div>
 
     <n-spin :show="loading">
       <n-data-table :columns="columns" :data="data" :pagination="{ pageSize: 10 }" />
