@@ -86,5 +86,6 @@ namespace Calculate {
     calculatePageParam: CalculatePageParam
     artifactCheck: boolean
     data: CalculatePriceParam[]
+    resultArray: CalculateResult["result_array"]
   }
 }

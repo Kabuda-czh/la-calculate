@@ -83,6 +83,7 @@ const importJsonData = () => {
     settingPriceRef.value.data = importJsonValue.data
     settingPriceRef.value.artifact_check = importJsonValue.artifactCheck
     settingPriceRef.value.firstCalculate = false
+    settingPriceRef.value.calculateResult.result_array = importJsonValue.resultArray
   }
 
   current.value = 4
@@ -95,7 +96,8 @@ const exportJsonData = () => {
   const jsonData: Calculate.CalculateJson = {
     calculatePageParam,
     artifactCheck: settingPriceRef?.value?.artifact_check as boolean,
-    data: settingPriceRef?.value?.data as Calculate.CalculatePriceParam[]
+    data: settingPriceRef?.value?.data as Calculate.CalculatePriceParam[],
+    resultArray: settingPriceRef?.value?.calculateResult.result_array as Calculate.CalculateResult["result_array"]
   }
 
   navigator.clipboard.writeText(JSON.stringify(jsonData))

@@ -267,6 +267,7 @@ const goToPrev = () => {
 
 defineExpose({
   data,
+  calculateResult,
   artifact_check,
   firstCalculate,
 })
