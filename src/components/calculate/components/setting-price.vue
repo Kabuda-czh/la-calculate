@@ -180,26 +180,29 @@ const filtersUpdate = (buildStringSet: any) => {
 
 const settingClick = async () => {
   const accessoryCount = data.value.reduce((acc, row) => {
-    if (row.accessory === "Amulet") {
-      acc.amulet = acc.amulet + 1
-    } else if (row.accessory === "Earring") {
-      acc.earring = acc.earring + 1
-    } else if (row.accessory === "Ring") {
-      acc.ring = acc.ring + 1
+    if (row?.price && row.price !== 0) {
+      if (row.accessory === "Amulet")
+        acc.amulet++
+      else if (row.accessory === "Earring")
+        acc.earring++
+      else if (row.accessory === "Ring")
+        acc.ring++
     }
     return acc
   }, { amulet: 0, earring: 0, ring: 0 })
 
-  if (accessoryCount.amulet < 1 || accessoryCount.earring < 2 || accessoryCount.ring < 2) {
+  const { amulet, earring, ring } = accessoryCount
+
+  if (amulet < 1 || earring < 2 || ring < 2) {
     window.$dialog?.warning({
       title: "提示",
       content: () => h("div", [
         h("p", "请至少设置 1 个项链, 2 个耳环, 2 个戒指"),
         h("div", { class: 'flex gap-2' }, [
           h(NText, null, { default: () => "当前设置: " }),
-          h(NText, { type: accessoryCount.amulet < 1 ? 'error' : 'success', }, { default: () => `项链: ${accessoryCount.amulet}个` }),
-          h(NText, { type: accessoryCount.earring < 2 ? 'error' : 'success' }, { default: () => `耳环: ${accessoryCount.earring}个` }),
-          h(NText, { type: accessoryCount.ring < 2 ? 'error' : 'success' }, { default: () => `戒指: ${accessoryCount.ring}个` }),
+          h(NText, { type: amulet < 1 ? 'error' : 'success' }, { default: () => `项链: ${amulet}个` }),
+          h(NText, { type: earring < 2 ? 'error' : 'success' }, { default: () => `耳环: ${earring}个` }),
+          h(NText, { type: ring < 2 ? 'error' : 'success' }, { default: () => `戒指: ${ring}个` }),
         ]),
       ])
     })
