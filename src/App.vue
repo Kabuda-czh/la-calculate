@@ -10,9 +10,9 @@ onMounted(() => {
   window.$dialog?.info({
     title: "欢迎使用 La-Calculate",
     content: () => h('div', [
-      h(NText, {delete: true}, { default: () => 'La-Calculate 是一个用于计算角色刻印搭配的工具，帮助你省钱搭配刻印。' }),
+      h(NText, { delete: true }, { default: () => 'La-Calculate 是一个用于计算角色刻印搭配的工具，帮助你省钱搭配刻印。' }),
       h("br"),
-      h(NText, {type: "warning"}, { default: () => '已经被T4背刺了' }),
+      h(NText, { type: "warning" }, { default: () => '已经被T4背刺了' }),
     ]),
   })
 })
