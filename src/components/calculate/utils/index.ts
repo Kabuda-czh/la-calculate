@@ -129,10 +129,40 @@ function calculate_price(param: [Calculate.CalculatePriceParam[], string[]]): Pr
   return new Promise((resolve) => {
     const [price_array, items_array] = param;
 
-    const price_array_filtered = price_array.filter(e => e?.price && e.price !== 0);
+    let amuletArray = price_array.filter(e => e.accessory === "Amulet");
+    let earringArray = price_array.filter(e => e.accessory === "Earring");
+    let ringArray = price_array.filter(e => e.accessory === "Ring");
+
+    const earringBuyOne: Calculate.CalculatePriceParam[] = []
+    const ringBuyOne: Calculate.CalculatePriceParam[] = []
+
+    const isBuyAmuletCount = amuletArray.filter(e => e.is_buy).length;
+    const isBuyEarringCount = earringArray.filter(e => e.is_buy).length;
+    const isBuyRingCount = ringArray.filter(e => e.is_buy).length;
+
+    if (isBuyAmuletCount === 1)
+      amuletArray = amuletArray.filter(e => e.is_buy)
+    if (isBuyEarringCount === 1)
+      earringBuyOne.push(earringArray.filter(e => e.is_buy)[0])
+    else if (isBuyEarringCount === 2)
+      earringArray = earringArray.filter(e => e.is_buy)
+    if (isBuyRingCount === 1)
+      ringBuyOne.push(ringArray.filter(e => e.is_buy)[0])
+    else if (isBuyRingCount === 2)
+      ringArray = ringArray.filter(e => e.is_buy)
+
+
+    const price_array_filtered = [...amuletArray, ...earringArray, ...ringArray].filter(e => e?.price && e.price !== 0)
 
     const items_price_array = items_array.reduce((acc, cur) => {
-      const items = cur.split("|");
+      const items = cur.split("|")
+      if (earringBuyOne.length === 1) {
+        if (!items.includes(earringBuyOne[0].base_string))
+          return acc
+      } else if (ringBuyOne.length === 1) {
+        if (!items.includes(ringBuyOne[0].base_string))
+          return acc
+      }
 
       function parseItem(item: string) {
         const [accessory, buffs] = item.split(":");
