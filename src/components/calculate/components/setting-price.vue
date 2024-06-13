@@ -135,7 +135,7 @@ async function calculate() {
 
   data.value = calculateResult.value.total_used_accessory_array.sort().map((buildString) => {
     return {
-      accessory: buildString.split(":")[0],
+      accessory: buildString.split(":")[0] as "Amulet" | "Earring" | "Ring",
       accessory_name: accessoryMap[buildString.split(":")[0]],
       build: buildString.split(":")[1].split(",").reduce((acc, cur) => {
         acc[cur.split("-")[0]] = Number(cur.split("-")[1])

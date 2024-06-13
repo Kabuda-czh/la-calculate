@@ -58,7 +58,7 @@ namespace Calculate {
 
   interface CalculatePriceParam {
     accessory_name: string
-    accessory: string
+    accessory: string & "Amulet" | "Earring" | "Ring"
     build_string: string
     build: Record<string, number>
     is_artifact: 0 | 1
