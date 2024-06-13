@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { NText } from 'naive-ui';
+import { NText, zhCN, dateZhCN, NLocale, NDateLocale } from 'naive-ui';
 import { Calculate } from './components/calculate';
 import AppProvider from './components/common/app-provide.vue';
+
+const locale = ref<NLocale>(zhCN)
+const dateLocale = ref<NDateLocale>(dateZhCN)
 
 onMounted(() => {
   window.$dialog?.info({
@@ -16,7 +19,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <NConfigProvider class="h-full">
+  <NConfigProvider :locale="locale" :date-locale="dateLocale" class="h-full">
     <AppProvider>
       <n-space vertical size="large">
         <n-layout class="h-full">
