@@ -142,6 +142,8 @@ function calculate_price(param: [Calculate.CalculatePriceParam[], string[]]): Pr
   return new Promise((resolve) => {
     const [price_array, items_array] = param;
 
+    const price_array_filtered = price_array.filter(e => e.price !== 0);
+
     const items_price_array = items_array.reduce((acc, cur) => {
       const items = cur.split("|");
 
@@ -154,7 +156,7 @@ function calculate_price(param: [Calculate.CalculatePriceParam[], string[]]): Pr
       }
 
       function findBuild(parsedItem: ReturnType<typeof parseItem>) {
-        return price_array.find(e =>
+        return price_array_filtered.find(e =>
           e.accessory === parsedItem.accessory &&
           e.build[parsedItem.buff1_code] === parsedItem.buff1_value &&
           e.build[parsedItem.buff2_code] === parsedItem.buff2_value
