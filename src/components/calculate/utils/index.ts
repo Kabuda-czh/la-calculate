@@ -4,16 +4,16 @@ interface BuildItem {
   value: number
 }
 
-const engravingPointDistributions = [
-  [4, 3],
-  [5, 3],
-  [6, 3]
-];
-
 const usedAccessoryNameArray = ['Amulet', 'Earring_1', 'Earring_2', 'Ring_1', 'Ring_2'];
 
 function calculate_build(buildParam: Calculate.CalculatePageParam, artifactCheck: boolean = false): Promise<Calculate.CalculateResult> {
   return new Promise((resolve) => {
+    const engravingPointDistributions = [
+      [4, 3],
+      [5, 3],
+      [6, 3]
+    ];
+
     if (artifactCheck)
       engravingPointDistributions.pop();
 
