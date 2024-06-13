@@ -142,6 +142,32 @@ async function calculate() {
 
   filtersUpdate(buildStringSet)
 }
+
+const filtersChange = (filterMap: any) => {
+  const { accessory_name, build_string } = filterMap as {
+    accessory_name: string
+    build_string: string[]
+  };
+
+  const accessoryMessage = accessory_name
+    ? `当前首饰过滤为: ${accessoryMap[accessory_name]}`
+    : '当前首饰过滤为: 无';
+
+  const buildStringMessage = build_string?.length
+    ? `当前刻印过滤为: ${build_string.join(",")}`
+    : '当前刻印过滤为: 无';
+
+  window.$notification?.success({
+    title: '过滤条件',
+    content: () => h('div', [
+      h('p', accessoryMessage),
+      h('p', buildStringMessage)
+    ]),
+    duration: 2000,
+    closable: false
+  });
+}
+
 const filtersUpdate = (buildStringSet: any) => {
   if (buildStringSet instanceof Set)
     columns[1].filterOptions = Array.from(buildStringSet as Set<string>).map((buildString) => {
@@ -255,7 +281,8 @@ const goToPrev = () => {
     </div>
 
     <n-spin :show="loading">
-      <n-data-table :columns="columns" :data="data" :pagination="{ pageSize: 10 }" />
+      <n-data-table :columns="columns" :data="data" :pagination="{ pageSize: 10 }" @filters-change="filtersChange"
+        @update:filters="filtersUpdate" />
       <template #description>
         正在计算中......
       </template>
