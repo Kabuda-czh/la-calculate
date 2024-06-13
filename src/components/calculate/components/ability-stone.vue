@@ -117,6 +117,7 @@ const goToPrev = () => {
     //   value: 0
     // }
   }
+  buffValueChange()
   emit('goToPrev')
 }
 </script>

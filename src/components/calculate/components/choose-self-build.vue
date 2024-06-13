@@ -99,6 +99,7 @@ const goToPrev = () => {
       value: 12
     }
   }
+  buffValueChange()
   emit('goToPrev')
 }
 </script>
