@@ -82,7 +82,7 @@ const columns: DataTableColumns<Calculate.CalculatePriceParam> = [
         showButton: false,
         value: row.price,
         onUpdateValue(v) {
-          row.price = v as number
+          row.price = v || 0
         }
       })
     }
