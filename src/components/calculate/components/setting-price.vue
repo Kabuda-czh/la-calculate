@@ -31,6 +31,18 @@ const data = ref<Calculate.CalculatePriceParam[]>([])
 const artifact_check = ref<boolean>(false)
 const firstCalculate = ref<boolean>(true)
 
+const rowDisabledInputComputed = (accessoryName: string & "Amulet" | "Earring" | "Ring") => {
+  const accessoryNameCountMap = {
+    Amulet: 1,
+    Earring: 2,
+    Ring: 2
+  }
+
+  return computed(() => {
+    return data.value.filter((row) => row.accessory === accessoryName && row.is_buy).length >= accessoryNameCountMap[accessoryName]
+  })
+}
+
 const columns: DataTableColumns<Calculate.CalculatePriceParam> = [
   {
     title: "首饰位置",
