@@ -28,6 +28,8 @@ const calculateResult = ref<Calculate.CalculateResult>({
   total_used_accessory_array: []
 })
 const data = ref<Calculate.CalculatePriceParam[]>([])
+const artifact_check = ref<boolean>(false)
+const firstCalculate = ref<boolean>(true)
 
 const columns: DataTableColumns<Calculate.CalculatePriceParam> = [
   {
@@ -116,6 +118,7 @@ async function calculate() {
   // calculateResult.value = await invoke("build_calculate", { buildParam: props.calculatePageParam })
   calculateResult.value = await calculate_build(props.calculatePageParam)
   loading.value = false
+  firstCalculate.value = false
 
   data.value = calculateResult.value.total_used_accessory_array.sort().map((buildString) => {
     return {
@@ -223,9 +226,9 @@ const goToPrev = () => {
 
     <div>
       <n-button attr-type="button" @click="goToPrev">
-      返回上一级
-    </n-button>
-      <n-button class="ml-1" attr-type="button" @click="settingClick">
+        返回上一级
+      </n-button>
+      <n-button class="ml-1" attr-type="button" :disabled="firstCalculate" @click="settingClick">
         确认设置, 开始计算
       </n-button>
     </div>
