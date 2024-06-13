@@ -49,6 +49,11 @@ const columns: DataTableColumns<Calculate.CalculatePriceParam> = [
   {
     title: "刻印",
     key: "build_string",
+    filterOptions: [],
+    filterMode: "and",
+    filter: (value, row) => {
+      return !!~row.build_string.indexOf(value.toString())
+    }
   },
   {
     title: "是否为遗物级别",
@@ -113,6 +118,8 @@ async function calculate() {
   loading.value = false
   firstCalculate.value = false
 
+  const buildStringSet = new Set<string>()
+
   data.value = calculateResult.value.total_used_accessory_array.sort().map((buildString) => {
     return {
       accessory: buildString.split(":")[0],
@@ -123,7 +130,8 @@ async function calculate() {
       }, {} as Record<string, number>),
       build_string: buildString.split(":")[1].split(",").map((build) => {
         const build_name = classesWithBuffOptionsMap[build.split("-")[0]]
-        return build_name+ " " + build.split("-")[1]
+        buildStringSet.add(build_name)
+        return build_name + " " + build.split("-")[1]
       }).join("\t"),
       is_artifact: artifact_check.value ? 1 : 0,
       is_artifact_disabled: artifact_check.value ? false : buildString.indexOf("6") !== -1 ? false : true,
@@ -131,6 +139,17 @@ async function calculate() {
       base_string: buildString
     }
   })
+
+  filtersUpdate(buildStringSet)
+}
+const filtersUpdate = (buildStringSet: any) => {
+  if (buildStringSet instanceof Set)
+    columns[1].filterOptions = Array.from(buildStringSet as Set<string>).map((buildString) => {
+      return {
+        label: buildString,
+        value: buildString
+      }
+    })
 }
 
 const settingClick = async () => {
