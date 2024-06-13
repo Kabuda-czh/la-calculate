@@ -18,7 +18,11 @@ const emit = defineEmits<{
 }>()
 
 const loading = ref<boolean>(true)
+const sliderValueArray = ref<[number, number]>([0, 0])
+const sliderMin = ref<number>(0)
+const sliderMax = ref<number>(100)
 const data = ref<Calculate.CalculatePriceResultTableColumn[]>([])
+const copyData = ref<Calculate.CalculatePriceResultTableColumn[]>([])
 const calculatePriceResult = ref<Calculate.CalculatePriceResult[]>([])
 
 const createAccessoryColumnRender = (item: Calculate.CalculatePriceParam) => {
@@ -105,6 +109,19 @@ async function calculate() {
       price_total: result.price_total
     }
   })
+
+  const [min, max] = [data.value[0]?.price_total || 0, data.value?.[data.value.length - 1]?.price_total || 0]
+
+  sliderMin.value = data.value[0]?.price_total || 0
+  sliderMax.value = data.value?.[data.value.length - 1]?.price_total || 0
+  sliderValueArray.value = [min, max]
+
+  copyData.value = JSON.parse(JSON.stringify(data.value))
+}
+
+const sliderDragend = () => {
+  const [min, max] = sliderValueArray.value
+  data.value = copyData.value.filter((item) => item.price_total >= min && item.price_total <= max)
 }
 
 const goToPrev = () => {
@@ -121,7 +138,32 @@ defineExpose({
 
 <template>
   <div>
-    <n-data-table :columns="columns" :data="data" :pagination="{ pageSize: 4 }" />
+    <n-space vertical>
+      <div class="flex items-center gap-5">
+        <p>表格中首饰的价格区间: </p>
+        <n-text type="success">
+          {{ sliderMin }}
+        </n-text>
+        <p>~</p>
+        <n-text type="error">
+          {{ sliderMax }}
+        </n-text>
+      </div>
+      <n-slider v-model:value="sliderValueArray" range :step="1" :min="sliderMin" :max="sliderMax"
+        @dragend="sliderDragend" />
+      <n-space>
+        <div class="flex items-center gap-5">
+          <p>手动输入区间</p>
+          <n-input-number v-model:value="sliderValueArray[0]" size="small" :min="sliderMin" :max="sliderMax"
+            :show-button="false" @blur="sliderDragend" />
+          <p>~</p>
+          <n-input-number v-model:value="sliderValueArray[1]" size="small" :min="sliderMin" :max="sliderMax"
+            :show-button="false" @blur="sliderDragend" />
+        </div>
+      </n-space>
+    </n-space>
+
+    <n-data-table class="mt-5" :columns="columns" :data="data" :pagination="{ pageSize: 4 }" />
 
     <n-button attr-type="button" @click="goToPrev">
       返回上一级
