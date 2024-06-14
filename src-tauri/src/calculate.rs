@@ -305,7 +305,7 @@ pub async fn calculate_price_fn<'a>(
         .into_iter()
         .chain(earring_array.into_iter())
         .chain(ring_array.into_iter())
-        .filter(|e| e.price > 0)
+        .filter(|e| e.price > 0 || e.is_buy)
         .collect();
 
     fn is_invalid_accessory(
@@ -354,8 +354,12 @@ pub async fn calculate_price_fn<'a>(
 
         let valid_items = items.iter().all(|&item| {
             let parsed_item = parse_item(item);
-            let build = find_build(&parsed_item, &price_array_filtered);
-            build.is_some() && build.unwrap().price != 0
+            let build_option = find_build(&parsed_item, &price_array_filtered);
+            if let Some(build) = &build_option {
+                build.price != 0 || build.is_buy
+            } else {
+              false
+            }
         });
 
         if valid_items {

@@ -151,7 +151,7 @@ function calculate_price(param: [Calculate.CalculatePriceParam[], string[]]): Pr
     else if (isBuyRingCount === 2)
       ringArray = ringArray.filter(e => e.is_buy)
 
-    const price_array_filtered = [...amuletArray, ...earringArray, ...ringArray].filter(e => e?.price && e.price !== 0)
+    const price_array_filtered = [...amuletArray, ...earringArray, ...ringArray].filter(e => e?.price && (e.price !== 0 || e.is_buy))
 
     function isInvalidAccessory(items: string[], accessoryArray: Calculate.CalculatePriceParam[]) {
       if (accessoryArray.length === 1) {
@@ -193,7 +193,7 @@ function calculate_price(param: [Calculate.CalculatePriceParam[], string[]]): Pr
       const valid_items = items.every((item) => {
         const parsedItem = parseItem(item)
         const build = findBuild(parsedItem)
-        return build && build.price !== 0
+        return build && (build.price !== 0 || build.is_buy)
       })
 
       if (valid_items) {
