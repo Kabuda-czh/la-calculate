@@ -4,7 +4,7 @@ interface BuildItem {
   value: number
 }
 
-const usedAccessoryNameArray = ['Amulet', 'Earring_1', 'Earring_2', 'Ring_1', 'Ring_2'];
+const usedAccessoryNameArray = ['Amulet', 'Earring_1', 'Earring_2', 'Ring_1', 'Ring_2']
 
 function calculate_build(buildParam: Calculate.CalculatePageParam, artifactCheck: boolean = false): Promise<Calculate.CalculateResult> {
   return new Promise((resolve) => {
@@ -15,15 +15,15 @@ function calculate_build(buildParam: Calculate.CalculatePageParam, artifactCheck
     ];
 
     if (artifactCheck)
-      engravingPointDistributions.pop();
+      engravingPointDistributions.pop()
 
-    const resultArray = new Set<string>();
-    const totalUsedAccessorySet = new Set<string>();
+    const resultArray = new Set<string>()
+    const totalUsedAccessorySet = new Set<string>()
     const buildItems = buildParam.need_builds.map(build => ({
       code: build.code,
       level: build.level,
       value: 0
-    }));
+    }))
 
     function addSettingValue(
       name: string,
@@ -34,17 +34,17 @@ function calculate_build(buildParam: Calculate.CalculatePageParam, artifactCheck
       const item = buildItems.find(element => element.code === buffValue.code);
       if (item) {
         if (!elementUsedMap[name]) {
-          elementUsedMap[name] = [];
+          elementUsedMap[name] = []
         }
         if (elementUsedMap[name].length < 2) {
-          elementUsedMap[name].push({ code: item.code, value: buffValue.value });
+          elementUsedMap[name].push({ code: item.code, value: buffValue.value })
           item.value += buffValue.value;
         }
       }
     }
 
     function isValid(buildItems: BuildItem[]) {
-      return buildItems.every(item => item.value >= item.level * 5);
+      return buildItems.every(item => item.value >= item.level * 5)
     }
 
     function tryCombination(index: number, buildItems: BuildItem[], elementUsedMap: Record<string, { code: string | number; value: number }[]>) {
@@ -52,18 +52,18 @@ function calculate_build(buildParam: Calculate.CalculatePageParam, artifactCheck
         if (isValid(buildItems)) {
           const filteredElementUsedArray = Object.keys(elementUsedMap).reduce((acc, key) => {
             if (usedAccessoryNameArray.includes(key)) {
-              const filterKey = key.startsWith('Earring') ? 'Earring' : key.startsWith('Ring') ? 'Ring' : key;
+              const filterKey = key.startsWith('Earring') ? 'Earring' : key.startsWith('Ring') ? 'Ring' : key
 
-              acc.push(`${filterKey}:${elementUsedMap[key].map(e => `${e.code}-${e.value}`).join(',')}`);
+              acc.push(`${filterKey}:${elementUsedMap[key].map(e => `${e.code}-${e.value}`).join(',')}`)
             }
-            return acc;
-          }, [] as string[]);
+            return acc
+          }, [] as string[])
 
           const sortPartFilteredElementUsedString = filteredElementUsedArray.map(part => {
-            let [type, value] = part.split(":");
-            let sortedValues = value.split(",").sort().join(",");
-            return `${type}:${sortedValues}`;
-          }).sort().join("|");
+            let [type, value] = part.split(":")
+            let sortedValues = value.split(",").sort().join(",")
+            return `${type}:${sortedValues}`
+          }).sort().join("|")
 
           if (!resultArray.has(sortPartFilteredElementUsedString)) {
             resultArray.add(sortPartFilteredElementUsedString);
@@ -74,49 +74,49 @@ function calculate_build(buildParam: Calculate.CalculatePageParam, artifactCheck
         return
       }
 
-      const points = engravingPointDistributions;
+      const points = engravingPointDistributions
 
       for (let i = 0; i < points.length; i++) {
-        const pointPair = points[i];
+        const pointPair = points[i]
 
         for (let j = 0; j < buildItems.length; j++) {
-          const item1 = buildItems[j];
+          const item1 = buildItems[j]
           if (item1.value < item1.level * 5 && !elementUsedMap[usedAccessoryNameArray[index]]?.find(e => e.code === item1.code)) {
-            item1.value += pointPair[0];
+            item1.value += pointPair[0]
             if (!elementUsedMap[usedAccessoryNameArray[index]]) {
-              elementUsedMap[usedAccessoryNameArray[index]] = [];
+              elementUsedMap[usedAccessoryNameArray[index]] = []
             }
             elementUsedMap[usedAccessoryNameArray[index]].push({ code: item1.code, value: pointPair[0] });
 
             for (let k = 0; k < buildItems.length; k++) {
               if (k !== j) {
-                const item2 = buildItems[k];
+                const item2 = buildItems[k]
                 if (item2.value < item2.level * 5 && !elementUsedMap[usedAccessoryNameArray[index]]?.find(e => e.code === item2.code)) {
-                  item2.value += pointPair[1];
-                  elementUsedMap[usedAccessoryNameArray[index]].push({ code: item2.code, value: pointPair[1] });
+                  item2.value += pointPair[1]
+                  elementUsedMap[usedAccessoryNameArray[index]].push({ code: item2.code, value: pointPair[1] })
 
-                  tryCombination(index + 1, buildItems, elementUsedMap);
+                  tryCombination(index + 1, buildItems, elementUsedMap)
 
-                  item2.value -= pointPair[1];
-                  elementUsedMap[usedAccessoryNameArray[index]].pop();
+                  item2.value -= pointPair[1]
+                  elementUsedMap[usedAccessoryNameArray[index]].pop()
                 }
               }
             }
 
-            item1.value -= pointPair[0];
-            elementUsedMap[usedAccessoryNameArray[index]].pop();
+            item1.value -= pointPair[0]
+            elementUsedMap[usedAccessoryNameArray[index]].pop()
           }
         }
       }
     }
 
-    const elementUsedMap = {};
-    addSettingValue('Stone_1', buildParam.stone_builds.buff_1, buildItems, elementUsedMap);
-    addSettingValue('Stone_2', buildParam.stone_builds.buff_2, buildItems, elementUsedMap);
-    addSettingValue('Self_1', buildParam.self_builds.buff_1, buildItems, elementUsedMap);
-    addSettingValue('Self_2', buildParam.self_builds.buff_2, buildItems, elementUsedMap);
+    const elementUsedMap = {}
+    addSettingValue('Stone_1', buildParam.stone_builds.buff_1, buildItems, elementUsedMap)
+    addSettingValue('Stone_2', buildParam.stone_builds.buff_2, buildItems, elementUsedMap)
+    addSettingValue('Self_1', buildParam.self_builds.buff_1, buildItems, elementUsedMap)
+    addSettingValue('Self_2', buildParam.self_builds.buff_2, buildItems, elementUsedMap)
 
-    tryCombination(0, buildItems, elementUsedMap);
+    tryCombination(0, buildItems, elementUsedMap)
 
     resolve({
       result_array: Array.from(resultArray),
@@ -127,18 +127,18 @@ function calculate_build(buildParam: Calculate.CalculatePageParam, artifactCheck
 
 function calculate_price(param: [Calculate.CalculatePriceParam[], string[]]): Promise<Calculate.CalculatePriceResult[]> {
   return new Promise((resolve) => {
-    const [price_array, items_array] = param;
+    const [price_array, items_array] = param
 
-    let amuletArray = price_array.filter(e => e.accessory === "Amulet");
-    let earringArray = price_array.filter(e => e.accessory === "Earring");
-    let ringArray = price_array.filter(e => e.accessory === "Ring");
+    let amuletArray = price_array.filter(e => e.accessory === "Amulet")
+    let earringArray = price_array.filter(e => e.accessory === "Earring")
+    let ringArray = price_array.filter(e => e.accessory === "Ring")
 
     const earringBuyOne: Calculate.CalculatePriceParam[] = []
     const ringBuyOne: Calculate.CalculatePriceParam[] = []
 
-    const isBuyAmuletCount = amuletArray.filter(e => e.is_buy).length;
-    const isBuyEarringCount = earringArray.filter(e => e.is_buy).length;
-    const isBuyRingCount = ringArray.filter(e => e.is_buy).length;
+    const isBuyAmuletCount = amuletArray.filter(e => e.is_buy).length
+    const isBuyEarringCount = earringArray.filter(e => e.is_buy).length
+    const isBuyRingCount = ringArray.filter(e => e.is_buy).length
 
     if (isBuyAmuletCount === 1)
       amuletArray = amuletArray.filter(e => e.is_buy)
@@ -165,11 +165,11 @@ function calculate_price(param: [Calculate.CalculatePriceParam[], string[]]): Pr
       }
 
       function parseItem(item: string) {
-        const [accessory, buffs] = item.split(":");
-        const [buff1, buff2] = buffs.split(",");
-        const [buff1_code, buff1_value] = buff1.split("-");
-        const [buff2_code, buff2_value] = buff2.split("-");
-        return { accessory, buff1_code, buff1_value: Number(buff1_value), buff2_code, buff2_value: Number(buff2_value) };
+        const [accessory, buffs] = item.split(":")
+        const [buff1, buff2] = buffs.split(",")
+        const [buff1_code, buff1_value] = buff1.split("-")
+        const [buff2_code, buff2_value] = buff2.split("-")
+        return { accessory, buff1_code, buff1_value: Number(buff1_value), buff2_code, buff2_value: Number(buff2_value) }
       }
 
       function findBuild(parsedItem: ReturnType<typeof parseItem>) {
@@ -177,19 +177,19 @@ function calculate_price(param: [Calculate.CalculatePriceParam[], string[]]): Pr
           e.accessory === parsedItem.accessory &&
           e.build[parsedItem.buff1_code] === parsedItem.buff1_value &&
           e.build[parsedItem.buff2_code] === parsedItem.buff2_value
-        );
+        )
       }
 
       const valid_items = items.every(item => {
-        const parsedItem = parseItem(item);
-        const build = findBuild(parsedItem);
-        return build && build.price !== 0;
-      });
+        const parsedItem = parseItem(item)
+        const build = findBuild(parsedItem)
+        return build && build.price !== 0
+      })
 
       if (valid_items) {
         const used_items = items.map(item => {
-          const parsedItem = parseItem(item);
-          const build = findBuild(parsedItem)!;
+          const parsedItem = parseItem(item)
+          const build = findBuild(parsedItem)!
           return {
             accessory_name: parsedItem.accessory,
             accessory: build.accessory,
@@ -200,19 +200,19 @@ function calculate_price(param: [Calculate.CalculatePriceParam[], string[]]): Pr
             price: build.price,
             base_string: build.base_string,
             remark: build.remark
-          } as Calculate.CalculatePriceParam;
-        });
+          } as Calculate.CalculatePriceParam
+        })
 
-        const price_total = used_items.reduce((acc, item) => acc + item.price, 0);
+        const price_total = used_items.reduce((acc, item) => acc + item.price, 0)
 
-        acc.push({ used_items, price_total });
+        acc.push({ used_items, price_total })
       }
 
-      return acc;
-    }, [] as Calculate.CalculatePriceResult[]);
+      return acc
+    }, [] as Calculate.CalculatePriceResult[])
 
-    resolve(items_price_array.filter(item => item.price_total > 0).sort((a, b) => a.price_total - b.price_total));
-  });
+    resolve(items_price_array.filter(item => item.price_total > 0).sort((a, b) => a.price_total - b.price_total))
+  })
 }
 
 export {
