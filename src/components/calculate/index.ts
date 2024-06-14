@@ -1,1 +1,1 @@
-export { default as Calculate } from './calculate.vue';
+export { default as Calculate } from './calculate.vue'

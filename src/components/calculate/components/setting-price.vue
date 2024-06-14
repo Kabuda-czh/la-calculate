@@ -1,8 +1,8 @@
 <script setup lang="tsx">
-import { NInput, NInputNumber, NSelect, NSwitch, NTag, NText, type DataTableColumns } from "naive-ui";
-import { accessoryMap, classesWithBuffOptionsMap } from "../config"
-import { calculate_build } from "../utils";
-import { CSSProperties } from "vue";
+import { type DataTableColumns, NInput, NInputNumber, NSelect, NSwitch, NTag, NText } from 'naive-ui'
+import type { CSSProperties } from 'vue'
+import { accessoryMap, classesWithBuffOptionsMap } from '../config'
+import { calculate_build } from '../utils'
 // import { invoke } from "@tauri-apps/api/tauri";
 
 const props = withDefaults(defineProps<{
@@ -14,159 +14,152 @@ const props = withDefaults(defineProps<{
       stone_builds: {} as Calculate.StoneBuild,
       self_builds: {} as Calculate.SelfBuild,
     }
-  }
+  },
 })
 
 const emit = defineEmits<{
-  settingSuccess: [calculate_price_params: Calculate.CalculatePriceParam[], result_array: Calculate.CalculateResult["result_array"]]
+  settingSuccess: [calculate_price_params: Calculate.CalculatePriceParam[], result_array: Calculate.CalculateResult['result_array']]
   goToPrev: []
 }>()
 
 const loading = ref<boolean>(false)
 const calculateResult = ref<Calculate.CalculateResult>({
   result_array: [],
-  total_used_accessory_array: []
+  total_used_accessory_array: [],
 })
 const data = ref<Calculate.CalculatePriceParam[]>([])
 const artifact_check = ref<boolean>(false)
 const firstCalculate = ref<boolean>(true)
 
-const rowDisabledInputComputed = (accessoryName: string & "Amulet" | "Earring" | "Ring") => {
+function rowDisabledInputComputed(accessoryName: string & 'Amulet' | 'Earring' | 'Ring') {
   const accessoryNameCountMap = {
     Amulet: 1,
     Earring: 2,
-    Ring: 2
+    Ring: 2,
   }
 
   return computed(() => {
-    return data.value.filter((row) => row.accessory === accessoryName && row.is_buy).length >= accessoryNameCountMap[accessoryName]
+    return data.value.filter(row => row.accessory === accessoryName && row.is_buy).length >= accessoryNameCountMap[accessoryName]
   })
 }
 
 const columns: DataTableColumns<Calculate.CalculatePriceParam> = [
   {
-    title: "首饰位置",
-    key: "accessory_name",
+    title: '首饰位置',
+    key: 'accessory_name',
     filterMultiple: false,
     filterOptions: Object.keys(accessoryMap).map((key) => {
       return {
         label: accessoryMap[key],
-        value: key
+        value: key,
       }
     }),
     filter: (value, row) => {
       return !!~row.accessory.indexOf(value.toString())
-    }
+    },
   },
   {
-    title: "刻印",
-    key: "build_string",
+    title: '刻印',
+    key: 'build_string',
     filterOptions: [],
-    filterMode: "and",
+    filterMode: 'and',
     filter: (value, row) => {
       return !!~row.build_string.indexOf(value.toString())
-    }
+    },
   },
   {
-    title: "是否为遗物级别",
-    key: "isArtifact",
+    title: '是否为遗物级别',
+    key: 'isArtifact',
     render: (row) => {
-      return <>
-        <NSelect
-          size="small"
-          value={row.is_artifact ? "是" : "否"}
-          disabled={!row.is_artifact_disabled || rowDisabledInputComputed(row.accessory).value}
-          options={[
-            { label: "是", value: 1 },
-            { label: "否", value: 0 }
-          ]}
-          onUpdateValue={(v) => {
-            row.is_artifact = v
-          }}
-        />
-      </>
-    }
+      return (
+        <>
+          <NSelect
+            size="small"
+            value={row.is_artifact ? '是' : '否'}
+            disabled={!row.is_artifact_disabled || rowDisabledInputComputed(row.accessory).value}
+            options={[
+              { label: '是', value: 1 },
+              { label: '否', value: 0 },
+            ]}
+            onUpdateValue={(v) => {
+              row.is_artifact = v
+            }}
+          />
+        </>
+      )
+    },
   },
   {
-    title: "是否已经购买",
-    key: "isBuy",
+    title: '是否已经购买',
+    key: 'isBuy',
     render: (row) => {
-      return <>
-        <NSwitch
-          size="small"
-          value={row.is_buy}
-          disabled={rowDisabledInputComputed(row.accessory).value}
-          onUpdateValue={(v) => {
-            row.is_buy = v
-            filterIsBuyArray()
-          }}
-        />
-      </>
-    }
+      return (
+        <>
+          <NSwitch
+            size="small"
+            value={row.is_buy}
+            disabled={rowDisabledInputComputed(row.accessory).value}
+            onUpdateValue={(v) => {
+              row.is_buy = v
+            }}
+          />
+        </>
+      )
+    },
   },
   {
-    title: "价格(注意: 价格为0时不会计算在内)",
-    key: "price",
-    titleAlign: "center",
+    title: '价格(注意: 价格为0时不会计算在内)',
+    key: 'price',
+    titleAlign: 'center',
     render: (row) => {
-      return <>
-        <NInputNumber
-          showButton={false}
-          value={row.price}
-          disabled={rowDisabledInputComputed(row.accessory).value}
-          onUpdateValue={(v) => {
-            row.price = v || 0
-          }}
-        />
-      </>
-    }
+      return (
+        <>
+          <NInputNumber
+            showButton={false}
+            value={row.price}
+            disabled={rowDisabledInputComputed(row.accessory).value}
+            onUpdateValue={(v) => {
+              row.price = v || 0
+            }}
+          />
+        </>
+      )
+    },
   },
   {
-    title: "备注",
-    key: "remark",
+    title: '备注',
+    key: 'remark',
     render: (row) => {
-      return <>
-        <NInput
-          value={row.remark}
-          disabled={rowDisabledInputComputed(row.accessory).value}
-          onUpdateValue={(v) => {
-            row.remark = v
-          }}
-        />
-      </>
-    }
-  }
+      return (
+        <>
+          <NInput
+            value={row.remark}
+            disabled={rowDisabledInputComputed(row.accessory).value}
+            onUpdateValue={(v) => {
+              row.remark = v
+            }}
+          />
+        </>
+      )
+    },
+  },
 ]
 
-const filterIsBuyArray = () => {
-  let amuletCount = 0, earringCount = 0, ringCount = 0
-  data.value.map((row) => {
-    if (row.is_buy) {
-      if (row.accessory === "Amulet")
-        amuletCount++
-      else if (row.accessory === "Earring")
-        earringCount++
-      else if (row.accessory === "Ring")
-        ringCount++
-    }
-    return row
-  })
-}
-
-const railStyle = ({
+function railStyle({
   focused,
-  checked
+  checked,
 }: {
   focused: boolean
   checked: boolean
-}) => {
+}) {
   const style: CSSProperties = {}
   if (checked) {
     style.background = '#FA5D00'
     if (focused) {
       style.boxShadow = '0 0 0 2px #FA5D0040'
     }
-  } else {
+  }
+  else {
     style.background = '#E3C7A1'
     if (focused) {
       style.boxShadow = '0 0 0 2px #E3C7A140'
@@ -186,80 +179,80 @@ async function calculate() {
 
   data.value = calculateResult.value.total_used_accessory_array.sort().map((buildString) => {
     return {
-      accessory: buildString.split(":")[0] as "Amulet" | "Earring" | "Ring",
-      accessory_name: accessoryMap[buildString.split(":")[0]],
-      build: buildString.split(":")[1].split(",").reduce((acc, cur) => {
-        acc[cur.split("-")[0]] = Number(cur.split("-")[1])
+      accessory: buildString.split(':')[0] as 'Amulet' | 'Earring' | 'Ring',
+      accessory_name: accessoryMap[buildString.split(':')[0]],
+      build: buildString.split(':')[1].split(',').reduce((acc, cur) => {
+        acc[cur.split('-')[0]] = Number(cur.split('-')[1])
         return acc
       }, {} as Record<string, number>),
-      build_string: buildString.split(":")[1].split(",").map((build) => {
-        const build_name = classesWithBuffOptionsMap[build.split("-")[0]]
+      build_string: buildString.split(':')[1].split(',').map((build) => {
+        const build_name = classesWithBuffOptionsMap[build.split('-')[0]]
         buildStringSet.add(build_name)
-        return build_name + " " + build.split("-")[1]
-      }).join("\t"),
+        return `${build_name} ${build.split('-')[1]}`
+      }).join('\t'),
       is_artifact: artifact_check.value ? 1 : 0,
-      is_artifact_disabled: artifact_check.value ? false : buildString.indexOf("6") !== -1 ? false : true,
+      is_artifact_disabled: artifact_check.value ? false : !buildString.includes('6'),
       is_buy: false,
       price: 0,
       base_string: buildString,
-      remark: ""
+      remark: '',
     }
   })
 
   filtersUpdate(buildStringSet)
 }
 
-const filtersChange = (filterMap: {
+function filtersChange(filterMap: {
   accessory_name: string
   build_string: string[]
-}) => {
+}) {
   const { accessory_name, build_string } = filterMap
 
   const accessoryMessage = accessory_name
     ? `当前首饰过滤为: ${accessoryMap[accessory_name]}`
-    : '当前首饰过滤为: 无';
+    : '当前首饰过滤为: 无'
 
   const buildStringMessage = build_string?.length
-    ? `当前刻印过滤为: ${build_string.join(",")}`
-    : '当前刻印过滤为: 无';
+    ? `当前刻印过滤为: ${build_string.join(',')}`
+    : '当前刻印过滤为: 无'
 
   window.$notification?.success({
     title: '过滤条件',
-    content: () =>
+    content: () => (
       <div>
         <p>{accessoryMessage}</p>
         <p>{buildStringMessage}</p>
       </div>
-    ,
+    ),
     duration: 2000,
-    closable: false
-  });
+    closable: false,
+  })
 }
 
-const filtersFunction = (filtersValue: any) => {
+function filtersFunction(filtersValue: any) {
   if (filtersValue instanceof Set)
     filtersUpdate(filtersValue)
   else
     filtersChange(filtersValue)
 }
 
-const filtersUpdate = (buildStringSet: Set<string>) => {
+function filtersUpdate(buildStringSet: Set<string>) {
   columns[1].filterOptions = Array.from(buildStringSet).map((buildString) => {
     return {
       label: buildString,
-      value: buildString
+      value: buildString,
     }
   })
 }
 
-const settingClick = async () => {
+async function settingClick() {
   const accessoryCount = data.value.reduce((acc, row) => {
     if (row?.price && row.price !== 0) {
-      if (row.accessory === "Amulet")
+      if (row.accessory === 'Amulet')
         acc.amulet++
-      else if (row.accessory === "Earring")
+      else if (row.accessory === 'Earring')
         acc.earring++
-      else if (row.accessory === "Ring")
+      else if (row.accessory === 'Ring')
         acc.ring++
     }
     return acc
@@ -269,28 +262,28 @@ const settingClick = async () => {
 
   if (amulet < 1 || earring < 2 || ring < 2) {
     window.$dialog?.warning({
-      title: "提示",
-      content: () => h("div", [
-        h("p", "请至少设置 1 个项链, 2 个耳环, 2 个戒指"),
-        h("div", { class: 'flex gap-2' }, [
-          h(NText, null, { default: () => "当前设置: " }),
+      title: '提示',
+      content: () => h('div', [
+        h('p', '请至少设置 1 个项链, 2 个耳环, 2 个戒指'),
+        h('div', { class: 'flex gap-2' }, [
+          h(NText, null, { default: () => '当前设置: ' }),
           h(NText, { type: amulet < 1 ? 'error' : 'success' }, { default: () => `项链: ${amulet}个` }),
           h(NText, { type: earring < 2 ? 'error' : 'success' }, { default: () => `耳环: ${earring}个` }),
           h(NText, { type: ring < 2 ? 'error' : 'success' }, { default: () => `戒指: ${ring}个` }),
         ]),
-      ])
+      ]),
     })
     return
   }
 
-  emit("settingSuccess", data.value, calculateResult.value.result_array)
+  emit('settingSuccess', data.value, calculateResult.value.result_array)
 }
 
-const goToPrev = () => {
+function goToPrev() {
   data.value = []
   calculateResult.value = {
     result_array: [],
-    total_used_accessory_array: []
+    total_used_accessory_array: [],
   }
   artifact_check.value = false
   firstCalculate.value = true
@@ -313,10 +306,12 @@ defineExpose({
         <n-thing title="需求刻印" content-style="margin-top: 10px;">
           <template #description>
             <n-space size="small" style="margin-top: 4px">
-              <n-tag v-for="build in props.calculatePageParam.need_builds" :key="build.code" :bordered="false"
-                type="info" size="small">
+              <NTag
+                v-for="build in props.calculatePageParam.need_builds" :key="build.code" :bordered="false"
+                type="info" size="small"
+              >
                 {{ classesWithBuffOptionsMap[build.code] }} {{ build.level }}
-              </n-tag>
+              </NTag>
             </n-space>
           </template>
         </n-thing>
@@ -325,14 +320,14 @@ defineExpose({
         <n-thing title="设定的能力石" content-style="margin-top: 10px;">
           <template #description>
             <n-space size="small" style="margin-top: 4px">
-              <n-tag :bordered="false" type="info" size="small">
+              <NTag :bordered="false" type="info" size="small">
                 {{ classesWithBuffOptionsMap[props.calculatePageParam.stone_builds?.buff_1?.code] }} {{
                   props.calculatePageParam.stone_builds?.buff_1?.value }}
-              </n-tag>
-              <n-tag :bordered="false" type="info" size="small">
+              </NTag>
+              <NTag :bordered="false" type="info" size="small">
                 {{ classesWithBuffOptionsMap[props.calculatePageParam.stone_builds?.buff_2?.code] }} {{
                   props.calculatePageParam.stone_builds?.buff_2?.value }}
-              </n-tag>
+              </NTag>
             </n-space>
           </template>
         </n-thing>
@@ -341,14 +336,14 @@ defineExpose({
         <n-thing title="设定的自身刻印" content-style="margin-top: 10px;">
           <template #description>
             <n-space size="small" style="margin-top: 4px">
-              <n-tag :bordered="false" type="info" size="small">
+              <NTag :bordered="false" type="info" size="small">
                 {{ classesWithBuffOptionsMap[props.calculatePageParam.self_builds?.buff_1?.code] }} {{
                   props.calculatePageParam.self_builds?.buff_1?.value }}
-              </n-tag>
-              <n-tag :bordered="false" type="info" size="small">
+              </NTag>
+              <NTag :bordered="false" type="info" size="small">
                 {{ classesWithBuffOptionsMap[props.calculatePageParam.self_builds?.buff_2?.code] }} {{
                   props.calculatePageParam.self_builds?.buff_2?.value }}
-              </n-tag>
+              </NTag>
             </n-space>
           </template>
         </n-thing>
@@ -356,15 +351,17 @@ defineExpose({
     </n-list>
 
     <div class="mb-5 w-full flex justify-between items-center">
-      <n-switch v-model:value="artifact_check" :round="false" :rail-style="railStyle">
+      <NSwitch v-model:value="artifact_check" :round="false" :rail-style="railStyle">
         <template #checked>
           当前仅处理遗物首饰
         </template>
         <template #unchecked>
           当前处理古代和遗物首饰
         </template>
-      </n-switch>
-      <n-button @click="calculate"> 开始计算 </n-button>
+      </NSwitch>
+      <n-button @click="calculate">
+        开始计算
+      </n-button>
     </div>
 
     <n-spin :show="loading">

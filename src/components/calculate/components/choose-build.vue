@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FormInst } from 'naive-ui'
-import { classesWithBuffOptions } from "../config"
+import { classesWithBuffOptions } from '../config'
 
 const emit = defineEmits<{
   buildSuccess: [needBuilds: Calculate.Build[]]
@@ -13,10 +13,10 @@ const classesWithBuffOptionsRef = ref(JSON.parse(JSON.stringify(classesWithBuffO
 const dynamicForm = reactive<{
   builds: Calculate.Build[]
 }>({
-  builds: [{ code: 44, level: 3, value: 0 }, { code: "", level: 3, value: 0 }, { code: "", level: 3, value: 0 }, { code: "", level: 3, value: 0 }, { code: "", level: 3, value: 0 }]
+  builds: [{ code: 44, level: 3, value: 0 }, { code: '', level: 3, value: 0 }, { code: '', level: 3, value: 0 }, { code: '', level: 3, value: 0 }, { code: '', level: 3, value: 0 }],
 })
 
-const handleValidateClick = () => {
+function handleValidateClick() {
   const sumBuildsLevel = dynamicForm.builds.reduce((prev, current) => prev + current.level * 5, 0)
 
   if (sumBuildsLevel > 89) {
@@ -26,48 +26,49 @@ const handleValidateClick = () => {
 
   formRef.value?.validate((errors) => {
     if (!errors) {
-      const buildDescription = dynamicForm.builds.map(item => {
+      const buildDescription = dynamicForm.builds.map((item) => {
         return `${classesWithBuffOptions.find(option => option.value === item.code)?.label}${item.level}`
       }).join(' ')
       window.$message?.success(`刻印设定成功: ${buildDescription}`)
       emit('buildSuccess', dynamicForm.builds)
-    } else {
+    }
+    else {
       window.$message?.warning('请完善刻印设定')
     }
   })
 }
 
-const buffValueChange = () => {
+function buffValueChange() {
   // 需要根据选择的刻印值, 给与 disabled, 并放开其他刻印, 便于另一个刻印选择
   classesWithBuffOptionsRef.value = classesWithBuffOptions.map((item) => {
     if (dynamicForm.builds.map(build => +build.code).includes(item.value)) {
       return {
         ...item,
-        disabled: true
+        disabled: true,
       }
     }
     return {
       ...item,
-      disabled: false
+      disabled: false,
     }
   })
 }
 
-const removeItem = (index: number) => {
+function removeItem(index: number) {
   dynamicForm.builds.splice(index, 1)
 }
 
-const addItem = () => {
-  dynamicForm.builds.push({ code: "", level: 1, value: 0 })
+function addItem() {
+  dynamicForm.builds.push({ code: '', level: 1, value: 0 })
 }
 
-const setDynamicFormBuildsValue = (need_builds: Calculate.Build[]) => {
+function setDynamicFormBuildsValue(need_builds: Calculate.Build[]) {
   dynamicForm.builds = need_builds
   buffValueChange()
 }
 
 defineExpose({
-  setDynamicFormBuildsValue
+  setDynamicFormBuildsValue,
 })
 </script>
 
@@ -77,16 +78,20 @@ defineExpose({
       在下列选择你想要的刻印, 并设置对应等级, 注意不要选择当前版本无法达到的刻印以及数量
     </n-alert>
     <n-form ref="formRef" :model="dynamicForm">
-      <n-form-item v-for="(item, index) in dynamicForm.builds" :key="index" :label="`刻印${index + 1}`"
+      <n-form-item
+        v-for="(item, index) in dynamicForm.builds" :key="index" :label="`刻印${index + 1}`"
         :path="`builds[${index}].code`" :rule="{
           required: true,
           type: 'number',
           message: `请输入刻印${index + 1}`,
-          trigger: ['change']
-        }">
-        <n-select v-model:value="item.code" filterable placeholder="选择刻印" :options="classesWithBuffOptionsRef"
-          @blur="buffValueChange" />
-        <n-input-number class="pl-1" v-model:value="item.level" :min="1" :max="3" />
+          trigger: ['change'],
+        }"
+      >
+        <n-select
+          v-model:value="item.code" filterable placeholder="选择刻印" :options="classesWithBuffOptionsRef"
+          @blur="buffValueChange"
+        />
+        <n-input-number v-model:value="item.level" class="pl-1" :min="1" :max="3" />
         <n-button style="margin-left: 12px" @click="removeItem(index)">
           删除
         </n-button>

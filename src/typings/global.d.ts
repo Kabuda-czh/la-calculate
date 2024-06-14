@@ -1,14 +1,14 @@
 interface Window {
   /** NProgress instance */
-  NProgress?: import('nprogress').NProgress;
+  NProgress?: import('nprogress').NProgress
   /** Loading bar instance */
-  $loadingBar?: import('naive-ui').LoadingBarProviderInst;
+  $loadingBar?: import('naive-ui').LoadingBarProviderInst
   /** Dialog instance */
-  $dialog?: import('naive-ui').DialogProviderInst;
+  $dialog?: import('naive-ui').DialogProviderInst
   /** Message instance */
-  $message?: import('naive-ui').MessageProviderInst;
+  $message?: import('naive-ui').MessageProviderInst
   /** Notification instance */
-  $notification?: import('naive-ui').NotificationProviderInst;
+  $notification?: import('naive-ui').NotificationProviderInst
 }
 
 namespace Calculate {
@@ -23,11 +23,11 @@ namespace Calculate {
     buff_1: {
       code: number | string
       value: number
-    },
+    }
     buff_2: {
       code: number | string
       value: number
-    },
+    }
     // debuff: {
     //   code: number | string
     //   value: number
@@ -38,7 +38,7 @@ namespace Calculate {
     buff_1: {
       code: number | string
       value: 3 | 6 | 9 | 12
-    },
+    }
     buff_2: {
       code: number | string
       value: 3 | 6 | 9 | 12
@@ -58,7 +58,7 @@ namespace Calculate {
 
   interface CalculatePriceParam {
     accessory_name: string
-    accessory: string & "Amulet" | "Earring" | "Ring"
+    accessory: string & 'Amulet' | 'Earring' | 'Ring'
     build_string: string
     build: Record<string, number>
     is_artifact: 0 | 1
@@ -87,6 +87,6 @@ namespace Calculate {
     calculatePageParam: CalculatePageParam
     artifactCheck: boolean
     data: CalculatePriceParam[]
-    resultArray: CalculateResult["result_array"]
+    resultArray: CalculateResult['result_array']
   }
 }

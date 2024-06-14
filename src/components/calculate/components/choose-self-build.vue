@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FormInst, FormRules } from 'naive-ui'
-import { classesWithBuffOptions } from "../config"
+import { classesWithBuffOptions } from '../config'
 
 const emit = defineEmits<{
   selfBuildSuccess: [selfBuild: Calculate.SelfBuild]
@@ -15,18 +15,18 @@ const buffQualityOptions = [
   { label: '高级 - 3', value: 3 },
   { label: '稀有 - 6', value: 6 },
   { label: '英雄 - 9', value: 9 },
-  { label: '传说 - 12', value: 12 }
+  { label: '传说 - 12', value: 12 },
 ]
 
 const selfBuildFormValue = ref<Calculate.SelfBuild>({
   buff_1: {
-    code: "",
-    value: 12
+    code: '',
+    value: 12,
   },
   buff_2: {
-    code: "",
-    value: 12
-  }
+    code: '',
+    value: 12,
+  },
 })
 
 const rules: FormRules = {
@@ -34,82 +34,83 @@ const rules: FormRules = {
     code: {
       required: true,
       message: '请选择刻印1',
-      trigger: ['change']
+      trigger: ['change'],
     },
     value: {
       required: true,
       message: '请输入刻印数',
       type: 'number',
-      trigger: ['input', 'blur']
-    }
+      trigger: ['input', 'blur'],
+    },
   },
   buff_2: {
     code: {
       required: true,
       message: '请选择刻印1',
-      trigger: ['change']
+      trigger: ['change'],
     },
     value: {
       required: true,
       message: '请输入刻印数',
       type: 'number',
-      trigger: ['input', 'blur']
-    }
-  }
+      trigger: ['input', 'blur'],
+    },
+  },
 }
 
-const handleValidateClick = () => {
+function handleValidateClick() {
   formRef.value?.validate((errors) => {
     if (!errors) {
-      const buildDescription = Object.values(selfBuildFormValue.value).map(item => {
+      const buildDescription = Object.values(selfBuildFormValue.value).map((item) => {
         return `${classesWithBuffOptions.find(option => option.value === item.code)?.label}${item.value}`
       }).join(' ')
       window.$message?.success(`自身刻印设定成功: ${buildDescription}`)
       emit('selfBuildSuccess', selfBuildFormValue.value)
-    } else {
+    }
+    else {
       window.$message?.warning('请完善刻印设定')
     }
   })
 }
 
-const buffValueChange = () => {
+function buffValueChange() {
   // 需要根据选择的刻印值, 给与 disabled, 并放开其他刻印, 便于另一个刻印选择
   classesWithBuffOptionRef.value = classesWithBuffOptions.map((item) => {
     if (item.value === selfBuildFormValue.value.buff_1.code || item.value === selfBuildFormValue.value.buff_2.code) {
       return {
         ...item,
-        disabled: true
+        disabled: true,
       }
     }
     return {
       ...item,
-      disabled: false
+      disabled: false,
     }
   })
 }
 
-const goToPrev = () => {
+function goToPrev() {
   selfBuildFormValue.value = {
     buff_1: {
-      code: "",
-      value: 12
+      code: '',
+      value: 12,
     },
     buff_2: {
-      code: "",
-      value: 12
-    }
+      code: '',
+      value: 12,
+    },
   }
   buffValueChange()
   emit('goToPrev')
 }
 
-const setSelfBuildFormValue = (self_builds: Calculate.SelfBuild) => {
+function setSelfBuildFormValue(self_builds: Calculate.SelfBuild) {
   selfBuildFormValue.value = self_builds
   buffValueChange()
 }
 
 defineExpose({
-  setSelfBuildFormValue
+  setSelfBuildFormValue,
 })
 </script>
 
@@ -120,16 +121,24 @@ defineExpose({
     </n-alert>
     <n-form ref="formRef" inline :label-width="80" :model="selfBuildFormValue" :rules="rules">
       <n-form-item label="携带刻印1" path="buff_1.value">
-        <n-select v-model:value="selfBuildFormValue.buff_1.code" filterable placeholder="选择刻印" :options="classesWithBuffOptionRef"
-          @blur="buffValueChange" />
-        <n-select class="pl-1" v-model:value="selfBuildFormValue.buff_1.value" filterable placeholder="选择刻印品质"
-          :options="buffQualityOptions" />
+        <n-select
+          v-model:value="selfBuildFormValue.buff_1.code" filterable placeholder="选择刻印"
+          :options="classesWithBuffOptionRef" @blur="buffValueChange"
+        />
+        <n-select
+          v-model:value="selfBuildFormValue.buff_1.value" class="pl-1" filterable placeholder="选择刻印品质"
+          :options="buffQualityOptions"
+        />
       </n-form-item>
       <n-form-item label="携带刻印2" path="buff_2.value">
-        <n-select v-model:value="selfBuildFormValue.buff_2.code" filterable placeholder="选择刻印" :options="classesWithBuffOptionRef"
-          @blur="buffValueChange" />
-        <n-select class="pl-1" v-model:value="selfBuildFormValue.buff_2.value" filterable placeholder="选择刻印品质"
-          :options="buffQualityOptions" />
+        <n-select
+          v-model:value="selfBuildFormValue.buff_2.code" filterable placeholder="选择刻印"
+          :options="classesWithBuffOptionRef" @blur="buffValueChange"
+        />
+        <n-select
+          v-model:value="selfBuildFormValue.buff_2.value" class="pl-1" filterable placeholder="选择刻印品质"
+          :options="buffQualityOptions"
+        />
       </n-form-item>
     </n-form>
 

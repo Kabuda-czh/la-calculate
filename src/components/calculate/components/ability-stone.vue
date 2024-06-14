@@ -4,7 +4,7 @@ import {
   buffOptions,
   classesWithBuffOptions,
   //  debuffOptions
-} from "../config"
+} from '../config'
 
 const emit = defineEmits<{
   stoneBuildSuccess: [selfBuild: Calculate.StoneBuild]
@@ -17,12 +17,12 @@ const buffOptionRef = ref(JSON.parse(JSON.stringify(buffOptions)))
 
 const stoneFormValue = ref<Calculate.StoneBuild>({
   buff_1: {
-    code: "",
-    value: 7
+    code: '',
+    value: 7,
   },
   buff_2: {
-    code: "",
-    value: 7
+    code: '',
+    value: 7,
   },
   // debuff: {
   //   code: "",
@@ -35,27 +35,27 @@ const rules: FormRules = {
     code: {
       required: true,
       message: '请选择刻印1',
-      trigger: ['change']
+      trigger: ['change'],
     },
     value: {
       required: true,
       message: '请输入刻印数',
       type: 'number',
-      trigger: ['input', 'blur']
-    }
+      trigger: ['input', 'blur'],
+    },
   },
   buff_2: {
     code: {
       required: true,
       message: '请选择刻印1',
-      trigger: ['change']
+      trigger: ['change'],
     },
     value: {
       required: true,
       message: '请输入刻印数',
       type: 'number',
-      trigger: ['input', 'blur']
-    }
+      trigger: ['input', 'blur'],
+    },
   },
   // debuff: {
   //   code: {
@@ -72,45 +72,46 @@ const rules: FormRules = {
   // },
 }
 
-const handleValidateClick = () => {
+function handleValidateClick() {
   formRef.value?.validate((errors) => {
     if (!errors) {
-      const buildDescription = Object.values(stoneFormValue.value).map(item => {
+      const buildDescription = Object.values(stoneFormValue.value).map((item) => {
         return `${classesWithBuffOptions.find(option => option.value === item.code)?.label}${item.value}`
       }).join(' ')
       window.$message?.success(`能力石设定成功: ${buildDescription}`)
       emit('stoneBuildSuccess', stoneFormValue.value)
-    } else {
+    }
+    else {
       window.$message?.warning('请完善刻印设定')
     }
   })
 }
 
-const buffValueChange = () => {
+function buffValueChange() {
   // 需要根据选择的刻印值, 给与 disabled, 并放开其他刻印, 便于另一个刻印选择
   buffOptionRef.value = buffOptions.map((item) => {
     if (item.value === stoneFormValue.value.buff_1.code || item.value === stoneFormValue.value.buff_2.code) {
       return {
         ...item,
-        disabled: true
+        disabled: true,
       }
     }
     return {
       ...item,
-      disabled: false
+      disabled: false,
     }
   })
 }
 
-const goToPrev = () => {
+function goToPrev() {
   stoneFormValue.value = {
     buff_1: {
-      code: "",
-      value: 7
+      code: '',
+      value: 7,
     },
     buff_2: {
-      code: "",
-      value: 7
+      code: '',
+      value: 7,
     },
     // debuff: {
     //   code: "",
@@ -121,31 +122,35 @@ const goToPrev = () => {
   emit('goToPrev')
 }
 
-const setStoneFormValue = (stone_builds: Calculate.StoneBuild) => {
+function setStoneFormValue(stone_builds: Calculate.StoneBuild) {
   stoneFormValue.value = stone_builds
   buffValueChange()
 }
 
 defineExpose({
-  setStoneFormValue
+  setStoneFormValue,
 })
 </script>
 
 <template>
   <div>
     <n-alert class="mb-5" title="提示" type="warning">
-      当前计算器版本仅支持先录入能力石刻印计算, 请先录入自身当前能力石刻印 <br /> 暂不支持负面刻印
+      当前计算器版本仅支持先录入能力石刻印计算, 请先录入自身当前能力石刻印 <br> 暂不支持负面刻印
     </n-alert>
     <n-form ref="formRef" inline :label-width="80" :model="stoneFormValue" :rules="rules">
       <n-form-item label="能力石刻印1" path="buff_1.value">
-        <n-select v-model:value="stoneFormValue.buff_1.code" filterable placeholder="选择刻印" :options="buffOptionRef"
-          @blur="buffValueChange" />
-        <n-input-number class="pl-1" v-model:value="stoneFormValue.buff_1.value" :max="10" :min="0" />
+        <n-select
+          v-model:value="stoneFormValue.buff_1.code" filterable placeholder="选择刻印" :options="buffOptionRef"
+          @blur="buffValueChange"
+        />
+        <n-input-number v-model:value="stoneFormValue.buff_1.value" class="pl-1" :max="10" :min="0" />
       </n-form-item>
       <n-form-item label="能力石刻印2" path="buff_2.value">
-        <n-select v-model:value="stoneFormValue.buff_2.code" filterable placeholder="选择刻印" :options="buffOptionRef"
-          @blur="buffValueChange" />
-        <n-input-number class="pl-1" v-model:value="stoneFormValue.buff_2.value" :max="10" :min="0" />
+        <n-select
+          v-model:value="stoneFormValue.buff_2.code" filterable placeholder="选择刻印" :options="buffOptionRef"
+          @blur="buffValueChange"
+        />
+        <n-input-number v-model:value="stoneFormValue.buff_2.value" class="pl-1" :max="10" :min="0" />
       </n-form-item>
       <!-- <n-form-item label="能力石负面刻印" path="debuff.value">
         <n-select v-model:value="stoneFormValue.debuff.code" filterable placeholder="选择刻印" :options="debuffOptions" />

@@ -1,15 +1,16 @@
-<script setup lang="ts">
-import { NText, zhCN, dateZhCN, NLocale, NDateLocale } from 'naive-ui';
-import { Calculate } from './components/calculate';
-import AppProvider from './components/common/app-provide.vue';
-import hljs from "highlight.js/lib/core"
-import json from "highlight.js/lib/languages/json"
+<script setup lang="tsx">
+import type { NDateLocale, NLocale } from 'naive-ui'
+import { NText, dateZhCN, zhCN } from 'naive-ui'
+import hljs from 'highlight.js/lib/core'
+import json from 'highlight.js/lib/languages/json'
+import { Calculate } from './components/calculate'
+import AppProvider from './components/common/app-provide.vue'
 
 const locale = ref<NLocale>(zhCN)
 const dateLocale = ref<NDateLocale>(dateZhCN)
 
 onMounted(() => {
-  hljs.registerLanguage("json", json)
+  hljs.registerLanguage('json', json)
 
   window.$dialog?.info({
     title: "欢迎使用 La-Calculate",
