@@ -1,7 +1,6 @@
 <script setup lang="tsx">
 import { type DataTableColumns, NNumberAnimation, NTag } from 'naive-ui'
-import { calculate_price } from '../utils'
-// import { invoke } from "@tauri-apps/api/tauri";
+import { invoke } from '@tauri-apps/api/tauri'
 
 const props = withDefaults(defineProps<{
   calculatePriceParam: [Calculate.CalculatePriceParam[], Calculate.CalculateResult['result_array']]
@@ -18,7 +17,7 @@ const emit = defineEmits<{
   goToPrev: []
 }>()
 
-const loading = ref<boolean>(true)
+const loading = ref<boolean>(false)
 const sliderValueArray = ref<[number, number]>([0, 0])
 const sliderMin = ref<number>(0)
 const sliderMax = ref<number>(100)
@@ -81,8 +80,8 @@ const columns: DataTableColumns<Calculate.CalculatePriceResultTableColumn> = [
 ]
 
 async function calculate() {
-  // calculateResult.value = await invoke("build_calculate", { buildParam: props.calculatePageParam })
-  calculatePriceResult.value = await calculate_price(props.calculatePriceParam)
+  loading.value = true
+  calculatePriceResult.value = await invoke('calculate_price', { param: props.calculatePriceParam })
   loading.value = false
 
   data.value = calculatePriceResult.value.map((result) => {
