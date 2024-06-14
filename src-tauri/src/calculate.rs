@@ -378,8 +378,12 @@ pub async fn calculate_price_fn<'a>(
         acc
     });
 
-    return items_price_array
-        .into_iter()
-        .filter(|item| item.price_total > 0)
-        .collect::<Vec<_>>();
+    let mut items_price_filtered_array = items_price_array
+    .into_iter()
+    .filter(|item| item.price_total > 0)
+    .collect::<Vec<_>>();
+
+    items_price_filtered_array.sort_by(|a, b| a.price_total.cmp(&b.price_total));
+
+    return items_price_filtered_array;
 }
