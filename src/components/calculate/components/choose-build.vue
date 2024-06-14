@@ -13,7 +13,7 @@ const classesWithBuffOptionsRef = ref(JSON.parse(JSON.stringify(classesWithBuffO
 const dynamicForm = reactive<{
   builds: Calculate.Build[]
 }>({
-  builds: [{ code: 44, level: 3, value: 0 }, { code: '', level: 3, value: 0 }, { code: '', level: 3, value: 0 }, { code: '', level: 3, value: 0 }, { code: '', level: 3, value: 0 }],
+  builds: [{ code: '44', level: 3, value: 0 }, { code: '', level: 3, value: 0 }, { code: '', level: 3, value: 0 }, { code: '', level: 3, value: 0 }, { code: '', level: 3, value: 0 }],
 })
 
 function handleValidateClick() {
@@ -41,7 +41,7 @@ function handleValidateClick() {
 function buffValueChange() {
   // 需要根据选择的刻印值, 给与 disabled, 并放开其他刻印, 便于另一个刻印选择
   classesWithBuffOptionsRef.value = classesWithBuffOptions.map((item) => {
-    if (dynamicForm.builds.map(build => +build.code).includes(item.value)) {
+    if (dynamicForm.builds.map(build => build.code).includes(item.value)) {
       return {
         ...item,
         disabled: true,
@@ -82,7 +82,6 @@ defineExpose({
         v-for="(item, index) in dynamicForm.builds" :key="index" :label="`刻印${index + 1}`"
         :path="`builds[${index}].code`" :rule="{
           required: true,
-          type: 'number',
           message: `请输入刻印${index + 1}`,
           trigger: ['change'],
         }"

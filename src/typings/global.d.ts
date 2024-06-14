@@ -13,7 +13,7 @@ interface Window {
 
 namespace Calculate {
   interface Build {
-    code: number | string
+    code: string
     level: 1 | 2 | 3
     need_value?: number
     value?: number
@@ -21,26 +21,26 @@ namespace Calculate {
 
   interface StoneBuild {
     buff_1: {
-      code: number | string
+      code: string
       value: number
     }
     buff_2: {
-      code: number | string
+      code: string
       value: number
     }
     // debuff: {
-    //   code: number | string
+    //   code: string
     //   value: number
     // }
   }
 
   interface SelfBuild {
     buff_1: {
-      code: number | string
+      code: string
       value: 3 | 6 | 9 | 12
     }
     buff_2: {
-      code: number | string
+      code: string
       value: 3 | 6 | 9 | 12
     }
   }
