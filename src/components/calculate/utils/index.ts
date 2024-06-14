@@ -153,23 +153,33 @@ function calculate_price(param: [Calculate.CalculatePriceParam[], string[]]): Pr
 
     const price_array_filtered = [...amuletArray, ...earringArray, ...ringArray].filter(e => e?.price && e.price !== 0)
 
+    function isInvalidAccessory(items: string[], accessoryArray: Calculate.CalculatePriceParam[]) {
+      if (accessoryArray.length === 1) {
+        const baseString = accessoryArray[0].base_string
+        const count = items.filter(item => item === baseString).length
+        return !items.includes(baseString) || count > 1
+      }
+      return false
+    }
+
     const items_price_array = items_array.reduce((acc, cur) => {
       const items = cur.split('|')
-      if (earringBuyOne.length === 1) {
-        if (!items.includes(earringBuyOne[0].base_string))
-          return acc
-      }
-      else if (ringBuyOne.length === 1) {
-        if (!items.includes(ringBuyOne[0].base_string))
-          return acc
-      }
+
+      if (isInvalidAccessory(items, earringBuyOne) || isInvalidAccessory(items, ringBuyOne))
+        return acc
 
       function parseItem(item: string) {
         const [accessory, buffs] = item.split(':')
         const [buff1, buff2] = buffs.split(',')
         const [buff1_code, buff1_value] = buff1.split('-')
         const [buff2_code, buff2_value] = buff2.split('-')
-        return { accessory, buff1_code, buff1_value: Number(buff1_value), buff2_code, buff2_value: Number(buff2_value) }
+        return {
+          accessory,
+          buff1_code,
+          buff1_value: Number(buff1_value),
+          buff2_code,
+          buff2_value: Number(buff2_value),
+        }
       }
 
       function findBuild(parsedItem: ReturnType<typeof parseItem>) {
