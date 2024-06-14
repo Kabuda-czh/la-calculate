@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import type { NDateLocale, NLocale } from 'naive-ui'
-import { NText, dateZhCN, zhCN } from 'naive-ui'
+import { NCheckbox, NDivider, NH2, NText, dateZhCN, zhCN } from 'naive-ui'
 import hljs from 'highlight.js/lib/core'
 import json from 'highlight.js/lib/languages/json'
 import { Calculate } from './components/calculate'
@@ -16,11 +16,18 @@ onMounted(() => {
     title: '欢迎使用 La-Calculate',
     content: () =>
       (
-        <div>
+        <>
           <NText delete>La-Calculate 是一个用于计算角色刻印搭配的工具，帮助你省钱搭配刻印。</NText>
           <br />
           <NText type="warning">已经被T4背刺了</NText>
-        </div>
+          <NDivider />
+          <div class="flex flex-col">
+            <NH2>未来规划</NH2>
+            <NCheckbox disabled>支持负面刻印</NCheckbox>
+            <NCheckbox disabled>多语言支持</NCheckbox>
+            <NCheckbox disabled>本地数据库持久化</NCheckbox>
+          </div>
+        </>
       ),
   })
 })
