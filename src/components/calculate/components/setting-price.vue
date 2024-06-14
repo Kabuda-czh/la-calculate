@@ -31,7 +31,7 @@ const data = ref<Calculate.CalculatePriceParam[]>([])
 const artifact_check = ref<boolean>(false)
 const firstCalculate = ref<boolean>(true)
 
-function rowDisabledInputComputed(accessoryName: string & 'Amulet' | 'Earring' | 'Ring') {
+function rowDisabledInputComputed(rowData: Calculate.CalculatePriceParam) {
   const accessoryNameCountMap = {
     Amulet: 1,
     Earring: 2,
@@ -39,7 +39,12 @@ function rowDisabledInputComputed(accessoryName: string & 'Amulet' | 'Earring' |
   }
 
   return computed(() => {
-    return data.value.filter(row => row.accessory === accessoryName && row.is_buy).length >= accessoryNameCountMap[accessoryName]
+    return data.value.filter(
+      row =>
+        row.accessory === rowData.accessory
+        && row.is_buy
+        && row.base_string !== rowData.base_string,
+    ).length >= accessoryNameCountMap[rowData.accessory]
   })
 }
 
@@ -76,7 +81,7 @@ const columns: DataTableColumns<Calculate.CalculatePriceParam> = [
           <NSelect
             size="small"
             value={row.is_artifact ? '是' : '否'}
-            disabled={!row.is_artifact_disabled || rowDisabledInputComputed(row.accessory).value}
+            disabled={!row.is_artifact_disabled || rowDisabledInputComputed(row).value}
             options={[
               { label: '是', value: 1 },
               { label: '否', value: 0 },
@@ -98,7 +103,7 @@ const columns: DataTableColumns<Calculate.CalculatePriceParam> = [
           <NSwitch
             size="small"
             value={row.is_buy}
-            disabled={rowDisabledInputComputed(row.accessory).value}
+            disabled={rowDisabledInputComputed(row).value}
             onUpdateValue={(v) => {
               row.is_buy = v
             }}
@@ -117,7 +122,7 @@ const columns: DataTableColumns<Calculate.CalculatePriceParam> = [
           <NInputNumber
             showButton={false}
             value={row.price}
-            disabled={rowDisabledInputComputed(row.accessory).value}
+            disabled={rowDisabledInputComputed(row).value}
             onUpdateValue={(v) => {
               row.price = v || 0
             }}
@@ -134,7 +139,7 @@ const columns: DataTableColumns<Calculate.CalculatePriceParam> = [
         <>
           <NInput
             value={row.remark}
-            disabled={rowDisabledInputComputed(row.accessory).value}
+            disabled={rowDisabledInputComputed(row).value}
             onUpdateValue={(v) => {
               row.remark = v
             }}
