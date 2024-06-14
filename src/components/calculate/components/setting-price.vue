@@ -263,15 +263,29 @@ async function settingClick() {
   if (amulet < 1 || earring < 2 || ring < 2) {
     window.$dialog?.warning({
       title: '提示',
-      content: () => h('div', [
-        h('p', '请至少设置 1 个项链, 2 个耳环, 2 个戒指'),
-        h('div', { class: 'flex gap-2' }, [
-          h(NText, null, { default: () => '当前设置: ' }),
-          h(NText, { type: amulet < 1 ? 'error' : 'success' }, { default: () => `项链: ${amulet}个` }),
-          h(NText, { type: earring < 2 ? 'error' : 'success' }, { default: () => `耳环: ${earring}个` }),
-          h(NText, { type: ring < 2 ? 'error' : 'success' }, { default: () => `戒指: ${ring}个` }),
-        ]),
-      ]),
+      content: () => (
+        <div>
+          <p>请至少设置 1 个项链, 2 个耳环, 2 个戒指</p>
+          <div class="flex gap-2">
+            <NText>当前设置: </NText>
+            <NText type={amulet < 1 ? 'error' : 'success'}>
+              项链:
+              {amulet}
+              个
+            </NText>
+            <NText type={earring < 2 ? 'error' : 'success'}>
+              耳环:
+              {earring}
+              个
+            </NText>
+            <NText type={ring < 2 ? 'error' : 'success'}>
+              戒指:
+              {ring}
+              个
+            </NText>
+          </div>
+        </div>
+      ),
     })
     return
   }
