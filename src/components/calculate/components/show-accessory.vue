@@ -84,6 +84,11 @@ async function calculate() {
   calculatePriceResult.value = await invoke('calculate_price', { param: props.calculatePriceParam })
   loading.value = false
 
+  if (calculatePriceResult.value.length === 0) {
+    window.$message?.warning('没有找到匹配的结果')
+    return
+  }
+
   data.value = calculatePriceResult.value.map((result) => {
     const omitPriceTotalData = result.used_items.reduce((acc, item) => {
       if (item.accessory === 'Amulet') {
