@@ -176,7 +176,9 @@ defineExpose({
       </n-space>
     </n-space>
 
-    <n-data-table class="mt-5" :columns="columns" :data="data" :pagination="{ pageSize: 4 }" />
+    <n-spin :show="loading">
+      <n-data-table class="mt-5" :columns="columns" :data="data" :pagination="{ pageSize: 4 }" />
+    </n-spin>
 
     <n-button attr-type="button" @click="goToPrev">
       返回上一级
