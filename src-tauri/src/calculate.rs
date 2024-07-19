@@ -10,7 +10,7 @@ use type_struct::{
 
 #[warn(dead_code)]
 const USED_ACCESSORY_NAME_ARRAY: [&str; 5] =
-    ["Amulet", "Earring_1", "Earring_2", "Ring_1", "Ring_2"];
+    ["amulet", "earring_1", "earring_2", "ring_1", "ring_2"];
 
 pub async fn calculate_build_fn(
     build_param: CalculatePageParam,

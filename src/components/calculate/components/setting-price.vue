@@ -32,9 +32,9 @@ const firstCalculate = ref<boolean>(true)
 
 function rowDisabledInputComputed(rowData: Calculate.CalculatePriceParam) {
   const accessoryNameCountMap = {
-    Amulet: 1,
-    Earring: 2,
-    Ring: 2,
+    amulet: 1,
+    earring: 2,
+    ring: 2,
   }
 
   return computed(() => {
@@ -182,7 +182,7 @@ async function calculate() {
 
   data.value = calculateResult.value.total_used_accessory_array.sort().map((buildString) => {
     return {
-      accessory: buildString.split(':')[0] as 'Amulet' | 'Earring' | 'Ring',
+      accessory: buildString.split(':')[0] as 'amulet' | 'earring' | 'ring',
       accessory_name: accessoryMap[buildString.split(':')[0]],
       build: buildString.split(':')[1].split(',').reduce((acc, cur) => {
         acc[cur.split('-')[0]] = Number(cur.split('-')[1])
@@ -251,11 +251,11 @@ function filtersUpdate(buildStringSet: Set<string>) {
 async function settingClick() {
   const accessoryCount = data.value.reduce((acc, row) => {
     if (row?.price && row.price !== 0) {
-      if (row.accessory === 'Amulet')
+      if (row.accessory === 'amulet')
         acc.amulet++
-      else if (row.accessory === 'Earring')
+      else if (row.accessory === 'earring')
         acc.earring++
-      else if (row.accessory === 'Ring')
+      else if (row.accessory === 'ring')
         acc.ring++
     }
     return acc

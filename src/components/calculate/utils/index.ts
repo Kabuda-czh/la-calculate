@@ -4,7 +4,7 @@ interface BuildItem {
   value: number
 }
 
-const usedAccessoryNameArray = ['Amulet', 'Earring_1', 'Earring_2', 'Ring_1', 'Ring_2']
+const usedAccessoryNameArray = ['amulet', 'earring_1', 'earring_2', 'ring_1', 'ring_2']
 
 function calculate_build(buildParam: Calculate.CalculatePageParam, artifactCheck: boolean = false): Promise<Calculate.CalculateResult> {
   return new Promise((resolve) => {
@@ -111,10 +111,10 @@ function calculate_build(buildParam: Calculate.CalculatePageParam, artifactCheck
     }
 
     const elementUsedMap = {}
-    addSettingValue('Stone_1', buildParam.stone_builds.buff_1, buildItems, elementUsedMap)
-    addSettingValue('Stone_2', buildParam.stone_builds.buff_2, buildItems, elementUsedMap)
-    addSettingValue('Self_1', buildParam.self_builds.buff_1, buildItems, elementUsedMap)
-    addSettingValue('Self_2', buildParam.self_builds.buff_2, buildItems, elementUsedMap)
+    addSettingValue('stone_1', buildParam.stone_builds.buff_1, buildItems, elementUsedMap)
+    addSettingValue('stone_2', buildParam.stone_builds.buff_2, buildItems, elementUsedMap)
+    addSettingValue('self_1', buildParam.self_builds.buff_1, buildItems, elementUsedMap)
+    addSettingValue('self_2', buildParam.self_builds.buff_2, buildItems, elementUsedMap)
 
     tryCombination(0, buildItems, elementUsedMap)
 
@@ -129,9 +129,9 @@ function calculate_price(param: [Calculate.CalculatePriceParam[], string[]]): Pr
   return new Promise((resolve) => {
     const [price_array, items_array] = param
 
-    let amuletArray = price_array.filter(e => e.accessory === 'Amulet')
-    let earringArray = price_array.filter(e => e.accessory === 'Earring')
-    let ringArray = price_array.filter(e => e.accessory === 'Ring')
+    let amuletArray = price_array.filter(e => e.accessory === 'amulet')
+    let earringArray = price_array.filter(e => e.accessory === 'earring')
+    let ringArray = price_array.filter(e => e.accessory === 'ring')
 
     const earringBuyOne: Calculate.CalculatePriceParam[] = []
     const ringBuyOne: Calculate.CalculatePriceParam[] = []

@@ -91,11 +91,11 @@ async function calculate() {
 
   data.value = calculatePriceResult.value.map((result) => {
     const omitPriceTotalData = result.used_items.reduce((acc, item) => {
-      if (item.accessory === 'Amulet') {
+      if (item.accessory === 'amulet') {
         acc.amulet = item
       }
 
-      if (item.accessory === 'Earring') {
+      if (item.accessory === 'earring') {
         if (acc.earring_1) {
           acc.earring_2 = item
         }
@@ -104,7 +104,7 @@ async function calculate() {
         }
       }
 
-      if (item.accessory === 'Ring') {
+      if (item.accessory === 'ring') {
         if (acc.ring_1) {
           acc.ring_2 = item
         }
