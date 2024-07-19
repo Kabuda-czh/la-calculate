@@ -1,8 +1,9 @@
 <script setup lang="tsx">
 import { type DataTableColumns, NInput, NInputNumber, NSelect, NSwitch, NTag, NText } from 'naive-ui'
 import type { CSSProperties } from 'vue'
-import { invoke } from '@tauri-apps/api/tauri'
+// import { invoke } from '@tauri-apps/api/tauri'
 import { accessoryMap, classesWithBuffOptionsMap } from '../config'
+import { calculate_build } from '../utils'
 
 const props = withDefaults(defineProps<{
   calculatePageParam: Calculate.CalculatePageParam
@@ -174,7 +175,8 @@ function railStyle({
 
 async function calculate() {
   loading.value = true
-  calculateResult.value = await invoke('calculate_build', { buildParam: props.calculatePageParam, artifactCheck: artifact_check.value })
+  // calculateResult.value = await invoke('calculate_build', { buildParam: props.calculatePageParam, artifactCheck: artifact_check.value })
+  calculateResult.value = await calculate_build(props.calculatePageParam, artifact_check.value)
   loading.value = false
   firstCalculate.value = false
 

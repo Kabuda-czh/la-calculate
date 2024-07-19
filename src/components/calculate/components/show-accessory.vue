@@ -1,6 +1,7 @@
 <script setup lang="tsx">
 import { type DataTableColumns, NNumberAnimation, NTag } from 'naive-ui'
-import { invoke } from '@tauri-apps/api/tauri'
+// import { invoke } from '@tauri-apps/api/tauri'
+import { calculate_price } from '../utils'
 
 const props = withDefaults(defineProps<{
   calculatePriceParam: [Calculate.CalculatePriceParam[], Calculate.CalculateResult['result_array']]
@@ -81,7 +82,8 @@ const columns: DataTableColumns<Calculate.CalculatePriceResultTableColumn> = [
 
 async function calculate() {
   loading.value = true
-  calculatePriceResult.value = await invoke('calculate_price', { param: props.calculatePriceParam })
+  // calculatePriceResult.value = await invoke('calculate_price', { param: props.calculatePriceParam })
+  calculatePriceResult.value = await calculate_price(props.calculatePriceParam)
   loading.value = false
 
   if (calculatePriceResult.value.length === 0) {
