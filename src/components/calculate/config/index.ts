@@ -115,9 +115,9 @@ const classesWithBuffOptions = [
 ]
 
 const accessoryMap: Record<string, string> = {
-  Earring: '耳环',
-  Ring: '戒指',
-  Amulet: '项链',
+  earring: '耳环',
+  ring: '戒指',
+  amulet: '项链',
 }
 
 export { classesWithBuffOptionsMap, classesWithBuffOptions, accessoryMap }
