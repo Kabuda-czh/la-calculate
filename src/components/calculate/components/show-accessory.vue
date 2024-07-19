@@ -34,6 +34,7 @@ function createAccessoryColumnRender(item: Calculate.CalculatePriceParam) {
       <NTag type={item.is_artifact ? 'error' : 'warning'} bordered={false}>
         {item.is_artifact ? '遗物' : '古代'}
       </NTag>
+      {item.is_buy && <NTag type="success" class="ml-2" bordered={false}>已购买</NTag>}
       <br />
       <NNumberAnimation showSeparator from={0} to={item.price} />
       <br />
