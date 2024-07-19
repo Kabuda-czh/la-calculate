@@ -89,6 +89,7 @@ function importJsonData() {
     settingPriceRef.value.artifact_check = importJsonValue.artifactCheck
     settingPriceRef.value.firstCalculate = false
     settingPriceRef.value.calculateResult.result_array = importJsonValue.resultArray
+    settingPriceRef.value.setFilterOption()
   }
 
   current.value = 4

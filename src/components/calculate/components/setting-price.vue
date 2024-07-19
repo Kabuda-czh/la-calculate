@@ -205,6 +205,14 @@ async function calculate() {
   filtersUpdate(buildStringSet)
 }
 
+function setFilterOption() {
+  const buildStringSet = new Set<string>()
+  data.value.forEach((row) => {
+    buildStringSet.add(row.build_string.split(' ')[0])
+  })
+  filtersUpdate(buildStringSet)
+}
+
 function filtersChange(filterMap: {
   accessory_name: string
   build_string: string[]
@@ -310,6 +318,7 @@ function goToPrev() {
 
 defineExpose({
   data,
+  setFilterOption,
   calculateResult,
   artifact_check,
   firstCalculate,
