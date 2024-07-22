@@ -120,13 +120,13 @@ function calculate_build(buildParam: Calculate.CalculatePageParam, artifactCheck
                   tryCombination(index + 1, buildItems, elementUsedMap)
 
                   item2.value -= pointPair[1]
-                  elementUsedMap[usedAccessoryNameArray[index]].pop()
+                  elementUsedMap[usedAccessoryNameArray[index]].splice(elementUsedMap[usedAccessoryNameArray[index]].findIndex(e => e.code === item2.code), 1)
                 }
               }
             }
 
             item1.value -= pointPair[0]
-            elementUsedMap[usedAccessoryNameArray[index]].pop()
+            elementUsedMap[usedAccessoryNameArray[index]].splice(elementUsedMap[usedAccessoryNameArray[index]].findIndex(e => e.code === item1.code), 1)
           }
         }
       }
