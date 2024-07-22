@@ -86,9 +86,28 @@ function calculate_build(buildParam: Calculate.CalculatePageParam, artifactCheck
             sortAndMap(ring_2, 'ring'),
           ]
 
-          const sortFilteredElementUsedString = sortFilteredElementUsedArray.join('|')
+          function checkElementUsedInResultArray() {
+            if (resultArray.size === 0)
+              return false
 
-          if (!resultArray.has(sortFilteredElementUsedString)) {
+            const results = Array.from(resultArray)
+
+            for (let i = 0; i < results.length; i++) {
+              let flagNumber = 0
+              const elementArray = results[i].split('|')
+              sortFilteredElementUsedArray.forEach((e) => {
+                if (elementArray.includes(e))
+                  flagNumber++
+              })
+              if (flagNumber === sortFilteredElementUsedArray.length)
+                return true
+            }
+
+            return false
+          }
+
+          if (!checkElementUsedInResultArray()) {
+            const sortFilteredElementUsedString = sortFilteredElementUsedArray.join('|')
             resultArray.add(sortFilteredElementUsedString)
             sortFilteredElementUsedArray.forEach(e => totalUsedAccessorySet.add(e))
             return
